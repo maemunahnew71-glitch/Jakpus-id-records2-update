@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="id" class="dark scroll-smooth">
+<html lang="id" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jakpus ID Record — Label Musik, Manajemen Artis & Publikasi</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -19,1612 +16,1283 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            gold: '#F59E0B',
-                            amber: '#D97706',
-                            dark: '#09090B',
-                            card: '#121216',
-                            border: '#27272A'
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
                         }
                     }
                 }
             }
-        }
+        };
     </script>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
-            background-color: #09090B;
-            color: #F4F4F5;
+            font-family: 'Inter', sans-serif;
+            background-color: #09090b;
+            color: #fafafa;
             overflow-x: hidden;
         }
-        .glass-nav {
-            background: rgba(9, 9, 11, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        .glass-card {
+            background: rgba(24, 24, 27, 0.78);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .hero-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.16) 0%, rgba(9, 9, 11, 0) 65%);
-        }
-        .vinyl-spin {
-            animation: spinSlow 18s linear infinite;
-        }
-        @keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #09090B;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272A;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #F59E0B;
+            background: radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.22), transparent 62%);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-amber-500 selection:text-zinc-950">
+<body class="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-rose-600 selection:text-white">
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
-
-    <!-- Hidden File Input for Profile Photo -->
-    <input type="file" id="profile-photo-input" accept="image/*" class="hidden">
-
-    <!-- Navigation Bar -->
-    <header class="fixed top-0 left-0 right-0 z-40 glass-nav border-b border-zinc-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Brand & Editable Profile Avatar -->
-                <div class="flex items-center gap-3">
-                    <div class="relative group cursor-pointer" onclick="triggerProfileUpload()" title="Klik untuk ganti foto profil Jakpus ID Record (Khusus Admin)">
-                        <img id="nav-profile-img" 
-                             src="https://placehold.co/120x120/18181B/F59E0B?text=JID" 
-                             onerror="this.src='https://placehold.co/120x120/18181B/F59E0B?text=JID'"
-                             alt="Jakpus ID Record Logo" 
-                             class="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-amber-500/80 shadow-md shadow-amber-500/10 transition group-hover:brightness-75">
-                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/50 rounded-full">
-                            <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <a href="#" class="font-display font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-1.5">
-                            JAKPUS ID <span class="text-amber-500">RECORD</span>
-                        </a>
-                        <p class="text-[11px] text-zinc-400 hidden sm:block">Jakarta Pusat, Indonesia</p>
-                    </div>
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 backdrop-blur-md">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+            <a href="#beranda" class="flex items-center gap-3 group">
+                <div class="relative h-10 w-10 overflow-hidden rounded-full border border-rose-500/50 bg-zinc-900 flex items-center justify-center shadow-lg shadow-rose-950/40">
+                    <img
+                        id="nav-profile-img"
+                        src=""
+                        alt="Profil Jakpus ID Record"
+                        class="hidden h-full w-full object-cover"
+                        onerror="this.classList.add('hidden'); document.getElementById('nav-profile-fallback').classList.remove('hidden');"
+                    />
+                    <span id="nav-profile-fallback" class="text-xs font-extrabold tracking-tighter text-rose-400">JP</span>
                 </div>
-
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
-                    <a href="#tentang" class="hover:text-amber-400 transition">Tentang Kami</a>
-                    <a href="#artis" class="hover:text-amber-400 transition">Artis & Musisi</a>
-                    <a href="#rilisan" class="hover:text-amber-400 transition">Rilisan Terbaru</a>
-                    <a href="#kirim-demo" class="hover:text-amber-400 transition">Kirim Demo</a>
-                    <a href="#kontak" class="hover:text-amber-400 transition">Kontak</a>
-                </nav>
-
-                <!-- Action Buttons -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button id="admin-mode-btn" onclick="toggleAdminAuth()" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs sm:text-sm font-semibold border border-zinc-700 transition" title="Masuk / Keluar Mode Admin">
-                        <i id="admin-lock-icon" data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
-                        <span id="admin-mode-label">Mode Tamu</span>
-                    </button>
-                    <button onclick="openReleaseModal()" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-100 text-xs sm:text-sm font-medium border border-zinc-700 transition">
-                        <i data-lucide="image-plus" class="w-4 h-4 text-amber-400"></i>
-                        <span>Tambah Rilisan</span>
-                    </button>
-                    <a href="#kirim-demo" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs sm:text-sm font-bold shadow-lg shadow-amber-500/20 transition">
-                        <i data-lucide="mic-2" class="w-4 h-4"></i>
-                        <span>Kirim Demo</span>
-                    </a>
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-xl text-zinc-300 hover:bg-zinc-800 transition" aria-label="Menu">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-extrabold tracking-wide text-white sm:text-base">JAKPUS ID RECORD</span>
+                        <span id="storage-status-badge" class="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-zinc-900 px-2.5 py-0.5 text-[11px] font-medium text-zinc-300">
+                            <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+                            <span>Mode Lokal Permanen</span>
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-zinc-400">Record Label • Artist Management • Music Publishing</p>
                 </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-300">
+                <a href="#profil" class="hover:text-white transition-colors">Profil</a>
+                <a href="#rilisan" class="hover:text-white transition-colors">Rilisan</a>
+                <a href="#artis" class="hover:text-white transition-colors">Artis</a>
+                <a href="#kirim-demo" class="hover:text-white transition-colors">Kirim Demo</a>
+                <a href="#kontak" class="hover:text-white transition-colors">Kontak</a>
+            </nav>
+
+            <!-- Admin Toggle & Mobile Button -->
+            <div class="flex items-center gap-2">
+                <button
+                    id="admin-toggle-btn"
+                    type="button"
+                    onclick="handleAdminButtonClick()"
+                    class="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-zinc-900 px-3 py-2 text-xs font-semibold text-zinc-200 hover:border-rose-500/60 hover:bg-zinc-800 transition-all cursor-pointer"
+                >
+                    <i id="admin-lock-icon" data-lucide="lock" class="h-3.5 w-3.5 text-rose-400"></i>
+                    <span id="admin-status-text">Mode Admin</span>
+                </button>
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    aria-label="Buka Menu Navigasi"
+                    class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-zinc-900 p-2 text-zinc-200 hover:bg-zinc-800 md:hidden cursor-pointer"
+                >
+                    <i data-lucide="menu" class="h-5 w-5"></i>
+                </button>
             </div>
         </div>
 
-        <!-- Mobile Dropdown Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-zinc-800 bg-zinc-950/95 px-4 pt-3 pb-5 space-y-2">
-            <a href="#tentang" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900">Tentang Kami</a>
-            <a href="#artis" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900">Artis & Musisi</a>
-            <a href="#rilisan" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900">Rilisan Terbaru</a>
-            <a href="#kirim-demo" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900">Kirim Demo</a>
-            <a href="#kontak" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900">Kontak & Sosial Media</a>
-            <div class="pt-2 border-t border-zinc-800 flex flex-wrap gap-2">
-                <button onclick="toggleAdminAuth(); closeMobileMenu();" class="w-full py-2.5 px-3 rounded-xl bg-zinc-900 border border-amber-500/40 text-xs font-semibold text-amber-400 flex items-center justify-center gap-1.5">
-                    <i data-lucide="shield-check" class="w-4 h-4"></i> <span id="mobile-admin-label">Login Admin Pemilik</span>
-                </button>
-                <button onclick="triggerProfileUpload(); closeMobileMenu();" class="flex-1 py-2.5 px-3 rounded-xl bg-zinc-900 border border-zinc-700 text-xs font-semibold text-zinc-200 flex items-center justify-center gap-1.5">
-                    <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i> Ganti Foto Profil
-                </button>
-                <button onclick="openReleaseModal(); closeMobileMenu();" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-xs font-semibold text-amber-400 flex items-center justify-center gap-1.5">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Rilisan
-                </button>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden border-t border-white/10 bg-zinc-950 px-4 py-3 md:hidden">
+            <div class="flex flex-col space-y-2 text-sm font-medium text-zinc-300">
+                <a href="#profil" onclick="closeMobileMenu()" class="rounded-lg px-3 py-2 hover:bg-zinc-900 hover:text-white">Profil</a>
+                <a href="#rilisan" onclick="closeMobileMenu()" class="rounded-lg px-3 py-2 hover:bg-zinc-900 hover:text-white">Rilisan</a>
+                <a href="#artis" onclick="closeMobileMenu()" class="rounded-lg px-3 py-2 hover:bg-zinc-900 hover:text-white">Artis</a>
+                <a href="#kirim-demo" onclick="closeMobileMenu()" class="rounded-lg px-3 py-2 hover:bg-zinc-900 hover:text-white">Kirim Demo</a>
+                <a href="#kontak" onclick="closeMobileMenu()" class="rounded-lg px-3 py-2 hover:bg-zinc-900 hover:text-white">Kontak</a>
             </div>
         </div>
     </header>
 
-    <!-- Hero & Editable Label Profile Card -->
-    <section class="relative pt-28 pb-16 sm:pt-36 sm:pb-24 hero-glow border-b border-zinc-800/70">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-                
-                <!-- Left Column: Official Bio -->
-                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide">
-                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                        OFFICIAL RECORD LABEL • CENTRAL JAKARTA
-                    </div>
+    <!-- Main Content -->
+    <main id="beranda" class="hero-glow">
+        <!-- Hero & Profile Photo Section -->
+        <section id="profil" class="mx-auto max-w-6xl px-4 pt-10 pb-14 sm:px-6 sm:pt-14">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <div class="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
+                    <!-- Profile Photo Box -->
+                    <div class="flex flex-col items-center shrink-0">
+                        <div
+                            onclick="triggerProfileUpload()"
+                            title="Klik untuk mengganti foto profil label"
+                            class="group relative h-36 w-36 sm:h-44 sm:w-44 overflow-hidden rounded-3xl border-2 border-rose-500/40 bg-zinc-900 flex items-center justify-center cursor-pointer shadow-xl transition-transform hover:scale-[1.02]"
+                        >
+                            <img
+                                id="main-profile-img"
+                                src=""
+                                alt="Foto Profil Jakpus ID Record"
+                                class="hidden h-full w-full object-cover"
+                                onerror="this.classList.add('hidden'); document.getElementById('main-profile-fallback').classList.remove('hidden');"
+                            />
+                            <div id="main-profile-fallback" class="flex flex-col items-center justify-center p-4 text-center">
+                                <i data-lucide="disc-3" class="h-10 w-10 text-rose-500 mb-2"></i>
+                                <span class="text-xs font-bold tracking-wider text-white uppercase">Jakpus ID</span>
+                                <span class="text-[11px] text-zinc-400 mt-0.5">Foto Profil Label</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/65 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white">
+                                    <i data-lucide="camera" class="h-3.5 w-3.5"></i>
+                                    Ganti Foto
+                                </span>
+                            </div>
+                        </div>
 
-                    <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.12]">
-                        Jakpus ID <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500">Record</span>
-                    </h1>
+                        <input
+                            id="profile-photo-input"
+                            type="file"
+                            accept="image/*"
+                            class="hidden"
+                        />
 
-                    <p class="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                        <strong class="text-white">Jakpus ID Record</strong> adalah label musik, manajemen artis, dan perusahaan publikasi musik yang berbasis di <span class="text-amber-400 font-medium">Jakarta Pusat, Indonesia</span>.
-                    </p>
-
-                    <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                        Subscribe channel resmi Jakpus ID Record untuk mendapatkan rilisan terbaru, <em>official music video</em>, <em>official lyric video</em>, serta konten eksklusif lainnya.
-                    </p>
-
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-                        <a href="#kirim-demo" class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm sm:text-base shadow-xl shadow-amber-500/20 transition flex items-center gap-2">
-                            <i data-lucide="send" class="w-4 h-4"></i>
-                            <span>Kirim Demo Lagu</span>
-                        </a>
-                        <button onclick="openReleaseModal()" class="px-6 py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-sm sm:text-base border border-zinc-700 transition flex items-center gap-2">
-                            <i data-lucide="image-plus" class="w-4 h-4 text-amber-400"></i>
-                            <span>Tambah Foto Rilisan</span>
+                        <button
+                            type="button"
+                            onclick="triggerProfileUpload()"
+                            class="mt-3 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-100 hover:border-rose-500/60 hover:bg-zinc-800 transition-colors cursor-pointer"
+                        >
+                            <i data-lucide="upload" class="h-3.5 w-3.5 text-rose-400"></i>
+                            <span>Ganti Foto Profil</span>
                         </button>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-2xl bg-red-600/15 hover:bg-red-600/25 text-red-400 border border-red-500/30 font-semibold text-sm sm:text-base transition flex items-center gap-2">
-                            <i data-lucide="youtube" class="w-5 h-5"></i>
-                            <span>Subscribe Channel</span>
-                        </a>
                     </div>
-                </div>
 
-                <!-- Right Column: Interactive Label Profile Photo Card -->
-                <div class="lg:col-span-5">
-                    <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                        
-                        <div class="flex flex-col items-center text-center">
-                            <!-- Editable Profile Photo Container -->
-                            <div class="relative group mb-5">
-                                <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-amber-500 via-orange-500 to-zinc-700 shadow-xl">
-                                    <img id="hero-profile-img" 
-                                         src="https://placehold.co/400x400/121216/F59E0B?text=JAKPUS+ID%0ARECORD" 
-                                         onerror="this.src='https://placehold.co/400x400/121216/F59E0B?text=JAKPUS+ID'"
-                                         alt="Profil Jakpus ID Record" 
-                                         class="w-full h-full rounded-full object-cover bg-zinc-950">
-                                </div>
-                                <button onclick="triggerProfileUpload()" 
-                                        class="absolute bottom-1 right-1 p-3 rounded-full bg-amber-500 hover:bg-amber-400 text-zinc-950 shadow-lg border-2 border-zinc-950 transition transform hover:scale-105"
-                                        title="Unggah / Ganti Foto Profil">
-                                    <i data-lucide="camera" class="w-5 h-5"></i>
-                                </button>
+                    <!-- Bilingual Official Profile -->
+                    <div class="flex-1 space-y-6 text-left">
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-500/15 border border-rose-500/30 px-3 py-1 text-xs font-semibold text-rose-300">
+                                <i data-lucide="map-pin" class="h-3.5 w-3.5"></i>
+                                Jakarta Pusat, Indonesia
+                            </span>
+                            <h1 class="mt-3 text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+                                Jakpus ID Record
+                            </h1>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <!-- Indonesian Bio -->
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/70 p-4 sm:p-5 space-y-2.5 text-sm leading-relaxed text-zinc-300">
+                                <div class="text-xs font-bold uppercase tracking-wider text-rose-400">Profil Resmi (ID)</div>
+                                <p>
+                                    Jakpus ID Record adalah label musik, manajemen artis, dan perusahaan publikasi musik yang berbasis di Jakarta Pusat, Indonesia.
+                                </p>
+                                <p>
+                                    Artis dan musisi yang bekerja sama dengan Jakpus ID Record meliputi Lolipop Band, Ungu, Wali, Sheila On 7, Element, dan masih banyak lagi.
+                                </p>
+                                <p>
+                                    Subscribe channel resmi Jakpus ID Record untuk mendapatkan rilisan terbaru, official music video, official lyric video, serta konten eksklusif lainnya.
+                                </p>
                             </div>
 
-                            <div class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full mb-2">
-                                <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>
-                                <span>Verified Music Label</span>
-                            </div>
-
-                            <h2 class="font-display font-bold text-xl sm:text-2xl text-white">Jakpus ID Record</h2>
-                            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Record Label • Artist Management • Music Publishing</p>
-
-                            <!-- Storage Status Indicator -->
-                            <div id="storage-status-badge" class="mt-3 inline-flex items-center gap-1.5 text-[11px] text-zinc-400 bg-zinc-900 px-3 py-1 rounded-full border border-zinc-800">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                                <span>Menghubungkan penyimpanan permanen...</span>
-                            </div>
-
-                            <!-- Admin Access Status Banner -->
-                            <div id="admin-status-banner" class="mt-2.5 w-full px-3.5 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-[11px] text-zinc-400 flex items-center justify-between gap-2">
-                                <span id="admin-status-text">Terkunci: Hanya Anda (Admin) yang bisa update</span>
-                                <button onclick="toggleAdminAuth()" type="button" class="text-amber-400 hover:text-amber-300 font-bold underline">Login</button>
-                            </div>
-
-                            <!-- Quick Action to Change Profile Photo -->
-                            <button onclick="triggerProfileUpload()" class="mt-4 w-full py-2.5 px-4 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-xs sm:text-sm font-medium text-zinc-200 transition flex items-center justify-center gap-2">
-                                <i data-lucide="upload" class="w-4 h-4 text-amber-400"></i>
-                                <span>Ganti Foto Profil Label</span>
-                            </button>
-
-                            <!-- Stats -->
-                            <div class="grid grid-cols-3 gap-3 w-full mt-6 pt-6 border-t border-zinc-800/80 text-center">
-                                <div>
-                                    <p class="font-display font-bold text-lg sm:text-xl text-white">5+</p>
-                                    <p class="text-[11px] text-zinc-400">Top Roster</p>
-                                </div>
-                                <div>
-                                    <p id="release-count-stat" class="font-display font-bold text-lg sm:text-xl text-amber-400">0</p>
-                                    <p class="text-[11px] text-zinc-400">Rilisan Aktif</p>
-                                </div>
-                                <div>
-                                    <p class="font-display font-bold text-lg sm:text-xl text-white">JKT</p>
-                                    <p class="text-[11px] text-zinc-400">Jakarta Pusat</p>
-                                </div>
+                            <!-- English Bio -->
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/70 p-4 sm:p-5 space-y-2.5 text-sm leading-relaxed text-zinc-300">
+                                <div class="text-xs font-bold uppercase tracking-wider text-rose-400">Official Profile (EN)</div>
+                                <p>
+                                    Jakpus ID Record is a record label, artist management, and music publishing company based in Central Jakarta, Indonesia.
+                                </p>
+                                <p>
+                                    Our roster of artists includes Lolipop Band, Ungu, Wali, Sheila On 7, Element, and many more.
+                                </p>
+                                <p>
+                                    Subscribe to our official channel for new releases, official music videos, official lyric videos, and exclusive content.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section (Bilingual ID / EN) -->
-    <section id="tentang" class="py-16 sm:py-20 border-b border-zinc-800/70">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <!-- Releases Section (Starts Empty by Default) -->
+        <section id="rilisan" class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+            <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center mb-6">
                 <div>
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Profil Perusahaan</span>
-                    <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Tentang Jakpus ID Record</h2>
+                    <h2 class="text-xl font-extrabold text-white sm:text-2xl">Rilisan Terbaru</h2>
+                    <p class="text-sm text-zinc-400 mt-0.5">Katalog foto cover rilisan resmi, music video, dan single pilihan.</p>
                 </div>
-                <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 self-start">
-                    <button id="btn-lang-id" onclick="setLanguage('id')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-zinc-950 transition">Bahasa Indonesia</button>
-                    <button id="btn-lang-en" onclick="setLanguage('en')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition">English</button>
-                </div>
-            </div>
-
-            <!-- Indonesian Bio Card -->
-            <div id="bio-id" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="disc-3" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Label Musik & Publikasi</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Jakpus ID Record adalah label musik, manajemen artis, dan perusahaan publikasi musik yang berbasis di Jakarta Pusat, Indonesia.
-                    </p>
-                </div>
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="users" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Manajemen Artis Ternama</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Artis dan musisi yang bekerja sama dengan Jakpus ID Record meliputi <strong class="text-zinc-200">Lolipop Band, Ungu, Wali, Sheila On 7, Element</strong>, dan masih banyak lagi.
-                    </p>
-                </div>
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="tv" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Konten & Rilisan Eksklusif</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Subscribe channel resmi Jakpus ID Record untuk mendapatkan rilisan terbaru, <em>official music video</em>, <em>official lyric video</em>, serta konten eksklusif lainnya.
-                    </p>
-                </div>
-            </div>
-
-            <!-- English Bio Card (Hidden by default) -->
-            <div id="bio-en" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="disc-3" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Record Label & Publishing</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Jakpus ID Record is a record label, artist management, and music publishing company based in Central Jakarta, Indonesia.
-                    </p>
-                </div>
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="users" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Renowned Artist Roster</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Our roster of artists includes <strong class="text-zinc-200">Lolipop Band, Ungu, Wali, Sheila On 7, Element</strong>, and many more.
-                    </p>
-                </div>
-                <div class="bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-7 space-y-3">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                        <i data-lucide="tv" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-lg text-white">Exclusive Videos & Releases</h3>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Subscribe to our official channel for new releases, official music videos, official lyric videos, and exclusive content.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Artists Roster Section -->
-    <section id="artis" class="py-16 sm:py-20 border-b border-zinc-800/70 bg-zinc-950/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Roster & Kolaborasi</span>
-                <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Artis & Musisi Kami</h2>
-                <p class="text-sm sm:text-base text-zinc-400 mt-2">
-                    Deretan band dan musisi papan atas Indonesia yang bekerja sama dengan Jakpus ID Record.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5" id="artists-grid">
-                <!-- Populated dynamically via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Releases Section (Starts Empty, Persists Uploads Permanently) -->
-    <section id="rilisan" class="py-16 sm:py-20 border-b border-zinc-800/70">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
-                <div>
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Katalog Resmi</span>
-                    <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Rilisan Terbaru</h2>
-                    <p class="text-sm text-zinc-400 mt-1">Tambahkan foto rilisan single, album, atau music video resmi milik Anda. Tersimpan permanen meskipun di-refresh.</p>
-                </div>
-                <div class="flex flex-wrap items-center gap-3 self-start sm:self-auto">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-300">
-                        <i data-lucide="eye" class="w-4 h-4 text-amber-400"></i>
-                        <span>Total Dilihat: <strong id="total-release-views" class="text-white">0</strong></span>
-                    </div>
-                    <button onclick="openReleaseModal()" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition">
-                        <i data-lucide="image-plus" class="w-4 h-4"></i>
-                        <span>Tambah Foto Rilisan</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Empty State when no releases are uploaded -->
-            <div id="releases-empty-state" class="bg-brand-card border border-dashed border-zinc-800 rounded-3xl p-10 sm:p-14 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto mb-4">
-                    <i data-lucide="disc-3" class="w-8 h-8"></i>
-                </div>
-                <h3 class="font-display font-bold text-xl text-white">Belum Ada Rilisan Diunggah</h3>
-                <p class="text-sm text-zinc-400 max-w-md mx-auto mt-2">
-                    Katalog rilisan saat ini kosong. Klik tombol <strong class="text-amber-400">Tambah Foto Rilisan</strong> untuk mulai mengunggah cover single, album, atau music video resmi.
-                </p>
-                <button onclick="openReleaseModal()" type="button" class="mt-6 inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition">
-                    <i data-lucide="image-plus" class="w-4 h-4"></i>
-                    <span>Unggah Rilisan Pertama</span>
+                <button
+                    type="button"
+                    onclick="openAddReleaseModal()"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-500 shadow-lg shadow-rose-950/50 transition-colors cursor-pointer"
+                >
+                    <i data-lucide="plus-circle" class="h-4 w-4"></i>
+                    <span>Tambah Foto Rilisan</span>
                 </button>
             </div>
 
-            <!-- Releases Cards Grid -->
-            <div id="releases-grid" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        </div>
-    </section>
+            <!-- Empty State when no releases exist -->
+            <div id="releases-empty-state" class="glass-card rounded-3xl p-10 text-center border border-dashed border-white/15">
+                <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-900 border border-white/10 text-rose-400">
+                    <i data-lucide="music-2" class="h-6 w-6"></i>
+                </div>
+                <h3 class="text-base font-bold text-white">Belum Ada Rilisan Diunggah</h3>
+                <p class="mx-auto mt-1 max-w-md text-sm text-zinc-400">
+                    Katalog rilisan saat ini masih kosong. Masuk ke Mode Admin lalu klik <span class="text-zinc-200 font-medium">Tambah Foto Rilisan</span> untuk mengunggah karya pertama.
+                </p>
+            </div>
 
-    <!-- Demo Submission & Contact Section -->
-    <section id="kirim-demo" class="py-16 sm:py-20 border-b border-zinc-800/70 bg-zinc-950/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-                <!-- Demo Form Column -->
-                <div class="lg:col-span-7 bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-xl">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">A&R & Talent Scouting</span>
-                    <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Kirim Demo Lagu</h2>
-                    <p class="text-sm text-zinc-400 mt-1.5 mb-6">
-                        Punya karya orisinal atau band potensial? Kirimkan demo lagu Anda ke tim Jakpus ID Record.
-                    </p>
+            <!-- Releases Grid -->
+            <div id="releases-grid" class="hidden grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </section>
 
-                    <form id="demo-form" onsubmit="handleDemoSubmit(event)" class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Roster / Artists Section -->
+        <section id="artis" class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8">
+                <div class="mb-6">
+                    <h2 class="text-xl font-extrabold text-white sm:text-2xl">Artis & Musisi</h2>
+                    <p class="text-sm text-zinc-400 mt-0.5">Jajaran artis dan musisi yang bekerja sama dengan Jakpus ID Record.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">LB</div>
+                        <div class="text-sm font-bold text-white">Lolipop Band</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Artist Roster</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">UG</div>
+                        <div class="text-sm font-bold text-white">Ungu</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Artist Roster</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">WL</div>
+                        <div class="text-sm font-bold text-white">Wali</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Artist Roster</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">S7</div>
+                        <div class="text-sm font-bold text-white">Sheila On 7</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Artist Roster</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">EL</div>
+                        <div class="text-sm font-bold text-white">Element</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Artist Roster</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-center hover:border-rose-500/40 transition-colors">
+                        <div class="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-400 font-bold text-sm">+</div>
+                        <div class="text-sm font-bold text-white">Dan Lainnya</div>
+                        <div class="text-[11px] text-zinc-400 mt-0.5">Many More</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Submission & Contacts Section -->
+        <section id="kirim-demo" class="mx-auto max-w-6xl px-4 py-10 pb-20 sm:px-6">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                <!-- Demo Form -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 lg:col-span-7">
+                    <h2 class="text-xl font-extrabold text-white sm:text-2xl">Kirim Demo Lagu</h2>
+                    <p class="text-sm text-zinc-400 mt-1">Kirimkan materi demo atau karya musik Anda untuk tim A&R Jakpus ID Record.</p>
+
+                    <form id="demo-form" class="mt-6 space-y-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Artis / Band *</label>
-                                <input type="text" id="demo-artist" required placeholder="Contoh: Raka & The Beats" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
+                                <label for="demo-artist" class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Artis / Band / Musisi *</label>
+                                <input id="demo-artist" type="text" required placeholder="Contoh: Nama Band Kamu" class="w-full rounded-xl border border-white/15 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none" />
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Judul Lagu *</label>
-                                <input type="text" id="demo-title" required placeholder="Contoh: Senja di Cikini" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
+                                <label for="demo-title" class="block text-xs font-semibold text-zinc-300 mb-1.5">Judul Lagu / Demo *</label>
+                                <input id="demo-title" type="text" required placeholder="Contoh: Senja di Jakarta" class="w-full rounded-xl border border-white/15 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none" />
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Genre Musik</label>
-                                <select id="demo-genre" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white focus:outline-none focus:border-amber-500">
-                                    <option value="Pop / Indie">Pop / Indie</option>
-                                    <option value="Rock / Alternative">Rock / Alternative</option>
-                                    <option value="R&B / Soul">R&B / Soul</option>
-                                    <option value="Hip-Hop / Rap">Hip-Hop / Rap</option>
-                                    <option value="Dangdut / Koplo">Dangdut / Koplo</option>
-                                </select>
+                                <label for="demo-contact" class="block text-xs font-semibold text-zinc-300 mb-1.5">WhatsApp / Email Kontak *</label>
+                                <input id="demo-contact" type="text" required placeholder="08xxxxxxxxxx / email@domain.com" class="w-full rounded-xl border border-white/15 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none" />
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">No. WhatsApp *</label>
-                                <input type="tel" id="demo-phone" required placeholder="08xxxxxxxxxx" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Email Pengirim *</label>
-                                <input type="email" id="demo-email" required placeholder="nama@email.com" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
+                                <label for="demo-link" class="block text-xs font-semibold text-zinc-300 mb-1.5">Link Audio / Streaming / Video</label>
+                                <input id="demo-link" type="url" placeholder="https://..." class="w-full rounded-xl border border-white/15 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none" />
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Link SoundCloud / Google Drive / YouTube (Opsional)</label>
-                            <input type="url" id="demo-link" placeholder="https://soundcloud.com/..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
+                            <label for="demo-notes" class="block text-xs font-semibold text-zinc-300 mb-1.5">Catatan Tambahan</label>
+                            <textarea id="demo-notes" rows="3" placeholder="Ceritakan singkat konsep lagu, genre, atau jadwal rilis..." class="w-full rounded-xl border border-white/15 bg-zinc-900 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none"></textarea>
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1.5">File Audio Demo (MP3/WAV - Opsional)</label>
-                            <label class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-amber-500 cursor-pointer transition">
-                                <i data-lucide="file-audio" class="w-5 h-5 text-amber-400 shrink-0"></i>
-                                <span id="demo-file-label" class="text-xs sm:text-sm text-zinc-400 truncate">Pilih file audio demo...</span>
-                                <input type="file" id="demo-audio-file" accept="audio/*" class="hidden" onchange="updateAudioLabel(this)">
-                            </label>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Catatan Singkat / Lirik</label>
-                            <textarea id="demo-notes" rows="3" placeholder="Ceritakan konsep lagu, latar belakang proyek, atau kontak manajemen..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"></textarea>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                            <button type="submit" id="btn-submit-demo" class="flex-1 py-3.5 px-5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
-                                <i data-lucide="send" class="w-4 h-4"></i>
-                                <span>Kirim Demo Sekarang</span>
+                        <div class="flex flex-col gap-3 pt-2 sm:flex-row">
+                            <button
+                                type="submit"
+                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-rose-600 px-5 py-3 text-sm font-semibold text-white hover:bg-rose-500 transition-colors cursor-pointer"
+                            >
+                                <i data-lucide="send" class="h-4 w-4"></i>
+                                <span>Kirim Demo</span>
                             </button>
-                            <button type="button" onclick="sendDemoViaWhatsApp()" class="py-3.5 px-5 rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-semibold text-sm transition flex items-center justify-center gap-2">
-                                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                                <span>Kirim via WhatsApp</span>
+                            <button
+                                type="button"
+                                onclick="sendDemoToWhatsApp()"
+                                class="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-600/20 px-4 py-3 text-sm font-semibold text-emerald-300 hover:bg-emerald-600/30 transition-colors cursor-pointer"
+                            >
+                                <i data-lucide="message-circle" class="h-4 w-4"></i>
+                                <span>Kirim ke WA PIC</span>
                             </button>
                         </div>
                     </form>
 
-                    <!-- Submitted Demos History -->
-                    <div id="submitted-demos-wrapper" class="hidden mt-7 pt-6 border-t border-zinc-800 space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Riwayat Demo Terkirim</h3>
-                            <span id="demo-count" class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-xs font-bold">0</span>
-                        </div>
+                    <!-- Submitted Demos List -->
+                    <div id="submitted-demos-wrapper" class="hidden mt-8 border-t border-white/10 pt-6">
+                        <h3 class="text-sm font-bold text-white mb-3">Demo Terkirim</h3>
                         <div id="submitted-demos-list" class="space-y-2.5"></div>
                     </div>
                 </div>
 
-                <!-- Official Contact & Social Column -->
-                <div id="kontak" class="lg:col-span-5 bg-brand-card border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-5">
-                    <div>
-                        <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Business Inquiries & Licensing</span>
-                        <h3 class="font-display font-bold text-xl sm:text-2xl text-white mt-1">Kontak Resmi Label</h3>
-                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-                            Hubungi PIC & kanal resmi Jakpus ID Record untuk kerja sama, lisensi, dan publikasi musik.
-                        </p>
+                <!-- Business Inquiries & Social Channels -->
+                <div id="kontak" class="glass-card rounded-3xl p-6 sm:p-8 lg:col-span-5 flex flex-col justify-between space-y-6">
+                    <div class="space-y-5">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-white">Business Inquiries & Licensing</h2>
+                            <p class="text-sm text-zinc-400 mt-1">Hubungi kontak resmi Jakpus ID Record untuk kerja sama, lisensi, dan publikasi.</p>
+                        </div>
+
+                        <div class="space-y-3 text-sm">
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4">
+                                <div class="text-xs font-semibold text-zinc-400">PIC / WhatsApp</div>
+                                <div class="mt-1 font-bold text-white">0889506965311</div>
+                            </div>
+
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4">
+                                <div class="text-xs font-semibold text-zinc-400">Email Resmi</div>
+                                <div class="mt-1 font-bold text-white break-all">rdik4305@gmail.com</div>
+                            </div>
+
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 space-y-2">
+                                <div class="text-xs font-semibold text-zinc-400">Follow & Connect with Jakpus ID Record</div>
+                                <div class="text-zinc-200"><span class="text-zinc-400">Instagram:</span> @[JAKPUS ID RECORD]</div>
+                                <div class="text-zinc-200"><span class="text-zinc-400">TikTok:</span> @[Jakpus id com ]</div>
+                                <div class="text-zinc-200 break-all"><span class="text-zinc-400">Email:</span> [rdik4305@gmail.com]</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="space-y-3">
-                        <div class="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
-                                    <i data-lucide="phone" class="w-5 h-5"></i>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-[11px] text-zinc-400">PIC / WhatsApp Resmi</p>
-                                    <p class="text-sm font-bold text-white truncate">0889506965311</p>
-                                </div>
-                            </div>
-                            <button onclick="copyText('0889506965311', 'Nomor WhatsApp 0889506965311 disalin!')" type="button" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 transition">
-                                Salin
-                            </button>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
-                                    <i data-lucide="mail" class="w-5 h-5"></i>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-[11px] text-zinc-400">Email Resmi</p>
-                                    <p class="text-sm font-bold text-white truncate">rdik4305@gmail.com</p>
-                                </div>
-                            </div>
-                            <button onclick="copyText('rdik4305@gmail.com', 'Email rdik4305@gmail.com disalin!')" type="button" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 transition">
-                                Salin
-                            </button>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2.5">
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Follow & Connect</p>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-zinc-300 flex items-center gap-2">
-                                    <i data-lucide="instagram" class="w-4 h-4 text-amber-400"></i>
-                                    Instagram
-                                </span>
-                                <span class="font-semibold text-white">@JAKPUS ID RECORD</span>
-                            </div>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-zinc-300 flex items-center gap-2">
-                                    <i data-lucide="music-2" class="w-4 h-4 text-amber-400"></i>
-                                    TikTok
-                                </span>
-                                <span class="font-semibold text-white">@Jakpus id com</span>
-                            </div>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-zinc-300 flex items-center gap-2">
-                                    <i data-lucide="map-pin" class="w-4 h-4 text-amber-400"></i>
-                                    Lokasi
-                                </span>
-                                <span class="font-semibold text-white">Jakarta Pusat, ID</span>
-                            </div>
-                        </div>
+                    <div class="rounded-2xl border border-rose-500/25 bg-rose-500/10 p-4 text-xs leading-relaxed text-rose-200">
+                        Subscribe channel resmi Jakpus ID Record untuk mendapatkan rilisan terbaru, official music video, official lyric video, serta konten eksklusif lainnya.
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="py-10 bg-zinc-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <img id="footer-profile-img"
-                     src="https://placehold.co/80x80/18181B/F59E0B?text=JID"
-                     onerror="this.src='https://placehold.co/80x80/18181B/F59E0B?text=JID'"
-                     alt="Jakpus ID Record Footer Logo"
-                     class="w-9 h-9 rounded-full object-cover border border-amber-500/60">
-                <div>
-                    <p class="font-display font-bold text-sm text-white">JAKPUS ID RECORD</p>
-                    <p class="text-[11px] text-zinc-500">Record Label • Artist Management • Music Publishing</p>
-                </div>
-            </div>
-            <p class="text-xs text-zinc-500">
-                &copy; 2026 Jakpus ID Record. All Rights Reserved.
-            </p>
+    <footer class="border-t border-white/10 bg-zinc-950 py-6 text-center text-xs text-zinc-400">
+        <div class="mx-auto max-w-6xl px-4">
+            &copy; <span id="footer-year">2026</span> Jakpus ID Record — Jakarta Pusat, Indonesia.
         </div>
     </footer>
 
-    <!-- Modal: Admin PIN Login / Setup -->
-    <div id="admin-login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-brand-card border border-zinc-800 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative">
+    <!-- Toast Notification -->
+    <div id="toast-box" class="pointer-events-none fixed bottom-5 right-5 z-50 hidden max-w-sm rounded-2xl border border-white/15 bg-zinc-900 px-4 py-3 text-sm font-medium text-white shadow-2xl">
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- Admin PIN Modal (Secret PIN without exposing hint) -->
+    <div id="admin-pin-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-sm rounded-3xl border border-white/15 bg-zinc-900 p-6 shadow-2xl">
             <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
-                        <i data-lucide="shield-lock" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 id="admin-modal-title" class="font-display font-bold text-lg text-white">Akses Admin Pemilik</h3>
-                        <p id="admin-modal-subtitle" class="text-xs text-zinc-400">Masukkan PIN rahasia agar hanya Anda yang bisa update</p>
-                    </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shield-check" class="h-5 w-5 text-rose-400"></i>
+                    <h3 class="text-base font-bold text-white">Akses Pemilik</h3>
                 </div>
-                <button onclick="closeAdminModal()" type="button" class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-800 hover:text-white transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button type="button" onclick="closeAdminPinModal()" class="rounded-lg p-1 text-zinc-400 hover:bg-zinc-800 hover:text-white cursor-pointer">
+                    <i data-lucide="x" class="h-4 w-4"></i>
                 </button>
             </div>
-
-            <form id="admin-pin-form" onsubmit="handleAdminPinSubmit(event)" class="space-y-4">
-                <div>
-                    <label id="admin-pin-label" class="block text-xs font-semibold text-zinc-300 mb-1.5">PIN Rahasia Admin</label>
-                    <input type="password" id="admin-pin-input" required minlength="4" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 tracking-widest">
-                </div>
-
-                <div class="flex gap-3 pt-2">
-                    <button type="button" onclick="closeAdminModal()" class="flex-1 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition">Batal</button>
-                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-sm font-bold shadow-lg shadow-amber-500/20 transition">Masuk Admin</button>
-                </div>
-            </form>
-
-            <div id="admin-change-pin-box" class="hidden mt-5 pt-4 border-t border-zinc-800">
-                <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Ganti PIN Rahasia Baru</label>
-                <div class="flex gap-2">
-                    <input type="password" id="new-admin-pin-input" minlength="4" placeholder="PIN baru..." class="flex-1 px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-700 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
-                    <button onclick="saveNewAdminPin()" type="button" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-amber-400 transition">Simpan PIN</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: Add New Release Photo -->
-    <div id="release-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-brand-card border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl relative">
-            <div class="flex items-center justify-between mb-5">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
-                        <i data-lucide="image-plus" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-display font-bold text-lg text-white">Tambah Foto Rilisan</h3>
-                        <p class="text-xs text-zinc-400">Unggah cover artwork single atau album baru (Tersimpan Permanen)</p>
-                    </div>
-                </div>
-                <button onclick="closeReleaseModal()" class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-800 hover:text-white transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <form id="release-form" onsubmit="handleAddRelease(event)" class="space-y-4">
-                <!-- Image Upload & Preview -->
-                <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Foto Cover Rilisan *</label>
-                    <div onclick="document.getElementById('release-cover-input').click()" 
-                         class="relative group cursor-pointer border-2 border-dashed border-zinc-700 hover:border-amber-500 rounded-2xl p-4 text-center bg-zinc-900/70 transition overflow-hidden">
-                        <img id="release-preview-img" src="" alt="Preview Cover" class="hidden w-40 h-40 object-cover rounded-xl mx-auto mb-2 shadow-lg">
-                        <div id="release-upload-placeholder" class="py-4">
-                            <i data-lucide="upload-cloud" class="w-8 h-8 text-amber-400 mx-auto mb-2"></i>
-                            <p class="text-xs sm:text-sm font-medium text-zinc-200">Klik untuk pilih foto rilisan (JPG/PNG)</p>
-                            <p class="text-[11px] text-zinc-500 mt-0.5">Rekomendasi rasio persegi 1:1</p>
-                        </div>
-                        <input type="file" id="release-cover-input" accept="image/*" required class="hidden" onchange="previewReleaseImage(this)">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Judul Lagu / Album *</label>
-                    <input type="text" id="release-title" required placeholder="Contoh: Rindu Jakarta Pusat" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Artis / Band *</label>
-                        <input type="text" id="release-artist" required placeholder="Contoh: Ungu / Wali" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Tipe Rilisan</label>
-                        <select id="release-type" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="Official Music Video">Official Music Video</option>
-                            <option value="Official Single">Official Single</option>
-                            <option value="Official Lyric Video">Official Lyric Video</option>
-                            <option value="Full Album">Full Album</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Link YouTube / Spotify / Streaming (Opsional)</label>
-                    <input type="url" id="release-url" placeholder="https://youtube.com/watch?v=..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500">
-                </div>
-
-                <div class="flex gap-3 pt-3">
-                    <button type="button" onclick="closeReleaseModal()" class="flex-1 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition">Batal</button>
-                    <button type="submit" id="btn-save-release" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-sm font-bold shadow-lg shadow-amber-500/20 transition">Simpan Rilisan</button>
+            <p class="text-xs text-zinc-400 mb-4">Masukkan kode rahasia pemilik untuk mengunggah foto profil atau mengelola rilisan.</p>
+            <form id="admin-pin-form" class="space-y-4">
+                <input
+                    id="admin-pin-input"
+                    type="password"
+                    inputmode="numeric"
+                    required
+                    placeholder="Masukkan kode rahasia"
+                    class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-rose-500 focus:outline-none"
+                />
+                <p id="admin-pin-error" class="hidden text-xs font-medium text-rose-400">Kode rahasia tidak sesuai.</p>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeAdminPinModal()" class="rounded-xl border border-white/15 px-4 py-2 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 cursor-pointer">Batal</button>
+                    <button type="submit" class="rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-500 cursor-pointer">Masuk</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- JavaScript Application Logic with Safe Initialization & Cloud Persistence -->
+    <!-- Add Release Modal -->
+    <div id="add-release-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md rounded-3xl border border-white/15 bg-zinc-900 p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white">Tambah Foto Rilisan</h3>
+                <button type="button" onclick="closeAddReleaseModal()" class="rounded-lg p-1 text-zinc-400 hover:bg-zinc-800 hover:text-white cursor-pointer">
+                    <i data-lucide="x" class="h-4 w-4"></i>
+                </button>
+            </div>
+            <form id="add-release-form" class="space-y-4">
+                <div>
+                    <label for="release-title" class="block text-xs font-semibold text-zinc-300 mb-1">Judul Rilisan *</label>
+                    <input id="release-title" type="text" required placeholder="Contoh: Official Music Video - Judul Lagu" class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3.5 py-2 text-sm text-white focus:border-rose-500 focus:outline-none" />
+                </div>
+                <div>
+                    <label for="release-artist" class="block text-xs font-semibold text-zinc-300 mb-1">Nama Artis / Band *</label>
+                    <input id="release-artist" type="text" required placeholder="Contoh: Ungu / Wali / Sheila On 7" class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3.5 py-2 text-sm text-white focus:border-rose-500 focus:outline-none" />
+                </div>
+                <div>
+                    <label for="release-category" class="block text-xs font-semibold text-zinc-300 mb-1">Kategori</label>
+                    <select id="release-category" class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3.5 py-2 text-sm text-white focus:border-rose-500 focus:outline-none">
+                        <option value="Official Music Video">Official Music Video</option>
+                        <option value="Official Lyric Video">Official Lyric Video</option>
+                        <option value="Official Single">Official Single</option>
+                        <option value="Album / EP">Album / EP</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="release-url" class="block text-xs font-semibold text-zinc-300 mb-1">Link Video / Streaming (Opsional)</label>
+                    <input id="release-url" type="url" placeholder="https://youtube.com/..." class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3.5 py-2 text-sm text-white focus:border-rose-500 focus:outline-none" />
+                </div>
+                <div>
+                    <label for="release-image-input" class="block text-xs font-semibold text-zinc-300 mb-1">Foto Cover Rilisan *</label>
+                    <input id="release-image-input" type="file" accept="image/*" required class="w-full rounded-xl border border-white/15 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 file:mr-3 file:rounded-lg file:border-0 file:bg-rose-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-rose-500" />
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAddReleaseModal()" class="rounded-xl border border-white/15 px-4 py-2 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 cursor-pointer">Batal</button>
+                    <button type="submit" class="rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-500 cursor-pointer">Simpan Rilisan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Watch / Preview Release Modal -->
+    <div id="watch-release-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-lg overflow-hidden rounded-3xl border border-white/15 bg-zinc-900 shadow-2xl">
+            <div class="relative aspect-video w-full bg-zinc-950 flex items-center justify-center overflow-hidden">
+                <img id="watch-release-img" src="" alt="Cover Rilisan" class="h-full w-full object-cover" />
+                <button type="button" onclick="closeWatchReleaseModal()" class="absolute top-3 right-3 rounded-full bg-black/70 p-2 text-white hover:bg-black cursor-pointer">
+                    <i data-lucide="x" class="h-4 w-4"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <span id="watch-release-category" class="inline-block rounded-full bg-rose-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-rose-300"></span>
+                    <h3 id="watch-release-title" class="mt-2 text-lg font-bold text-white"></h3>
+                    <p id="watch-release-artist" class="text-sm text-zinc-400"></p>
+                    <p id="watch-release-views" class="mt-1 text-xs text-zinc-500"></p>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                    <button
+                        type="button"
+                        onclick="shareCurrentWatchedRelease()"
+                        class="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700 cursor-pointer"
+                    >
+                        <i data-lucide="share-2" class="h-3.5 w-3.5 text-rose-400"></i>
+                        <span>Bagikan</span>
+                    </button>
+                    <a
+                        id="watch-release-external-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hidden items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-500"
+                    >
+                        <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
+                        <span>Buka Tautan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Safe Lucide Icon Renderer
-        function safeCreateIcons() {
+        // Declare module-level state & Firebase handles
+        let auth = null;
+        let db = null;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' && __app_id ? __app_id : 'jakpus-id-record';
+
+        const SECRET_PIN = '6678';
+        const WINDOW_NAME_PREFIX = 'JAKPUS_ID_RECORD_STATE::';
+        const IDB_NAME = 'JakpusIdRecordDB';
+        const IDB_STORE = 'AppStateStore';
+        const IDB_KEY = 'main_state';
+
+        let isAdminAuthenticated = false;
+        let pendingActionAfterPin = null;
+        let releasesData = [];
+        let submittedDemos = [];
+        let profileImageData = '';
+        let activeWatchedRelease = null;
+
+        // Safe icon renderer
+        function refreshIcons() {
             try {
                 if (window.lucide && typeof window.lucide.createIcons === 'function') {
                     window.lucide.createIcons();
                 }
-            } catch (e) {
-                console.warn('Icon render skipped:', e);
+            } catch (err) {
+                console.warn('Icon render skipped:', err);
             }
         }
 
-        // Mobile Menu Helpers
-        window.closeMobileMenu = function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu) {
-                mobileMenu.classList.add('hidden');
-            }
-        };
-
-        function setupMobileNavigation() {
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (!mobileMenuBtn || !mobileMenu) return;
-
-            mobileMenuBtn.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-                safeCreateIcons();
-            });
+        // Toast notification helper (never uses alert())
+        function showToast(message) {
+            const box = document.getElementById('toast-box');
+            const msgEl = document.getElementById('toast-message');
+            if (!box || !msgEl) return;
+            msgEl.textContent = message;
+            box.classList.remove('hidden');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3000);
         }
 
-        // Artist Roster Data
-        const rosterArtists = [
-            { name: "Lolipop Band", role: "Featured Band", color: "from-amber-500 to-orange-600", initials: "LB" },
-            { name: "Ungu", role: "Official Partner", color: "from-purple-600 to-indigo-700", initials: "UN" },
-            { name: "Wali", role: "Official Partner", color: "from-emerald-500 to-teal-700", initials: "WL" },
-            { name: "Sheila On 7", role: "Official Partner", color: "from-sky-500 to-blue-700", initials: "S7" },
-            { name: "Element", role: "Official Partner", color: "from-rose-500 to-red-700", initials: "EL" },
-            { name: "& Banyak Lagi", role: "Jakpus Roster", color: "from-zinc-700 to-zinc-800", initials: "+More" }
-        ];
-
-        // In-Memory State (Starts completely empty for releases as requested)
-        let releasesData = [];
-        let submittedDemos = [];
-        let tempReleaseImageBase64 = "";
-
-        // Admin Protection State (Only owner with PIN can upload/edit/delete)
-        let isAdminUnlocked = false;
-        let storedAdminPin = "6678";
-        let pendingProtectedAction = null;
-
-        // Firebase References
-        let auth = null;
-        let db = null;
-        let currentUser = null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'jakpus-id-record';
-        const SESSION_STORE_KEY = 'JAKPUS_ID_RECORD_STATE_V1';
-        const IDB_NAME = 'JakpusIDRecordDB';
-        const IDB_STORE = 'stateStore';
-
-        function openIDB() {
+        // IndexedDB helpers for durable multi-session persistence
+        function openIndexedDb() {
             return new Promise((resolve, reject) => {
                 if (!('indexedDB' in window)) {
                     resolve(null);
                     return;
                 }
-                try {
-                    const req = indexedDB.open(IDB_NAME, 1);
-                    req.onupgradeneeded = () => {
-                        const database = req.result;
-                        if (!database.objectStoreNames.contains(IDB_STORE)) {
-                            database.createObjectStore(IDB_STORE);
-                        }
-                    };
-                    req.onsuccess = () => resolve(req.result);
-                    req.onerror = () => reject(req.error);
-                } catch (err) {
-                    resolve(null);
-                }
+                const request = indexedDB.open(IDB_NAME, 1);
+                request.onupgradeneeded = () => {
+                    const database = request.result;
+                    if (!database.objectStoreNames.contains(IDB_STORE)) {
+                        database.createObjectStore(IDB_STORE);
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
             });
         }
 
-        async function loadIDBState() {
+        async function readFromIndexedDb() {
             try {
-                const database = await openIDB();
+                const database = await openIndexedDb();
                 if (!database) return null;
-                return await new Promise((resolve) => {
+                return await new Promise((resolve, reject) => {
                     const tx = database.transaction(IDB_STORE, 'readonly');
                     const store = tx.objectStore(IDB_STORE);
-                    const req = store.get('mainState');
+                    const req = store.get(IDB_KEY);
                     req.onsuccess = () => resolve(req.result || null);
-                    req.onerror = () => resolve(null);
+                    req.onerror = () => reject(req.error);
                 });
             } catch (err) {
                 return null;
             }
         }
 
-        async function saveIDBState(nextState) {
+        async function writeToIndexedDb(payload) {
             try {
-                const database = await openIDB();
+                const database = await openIndexedDb();
                 if (!database) return;
-                const tx = database.transaction(IDB_STORE, 'readwrite');
-                const store = tx.objectStore(IDB_STORE);
-                store.put(nextState, 'mainState');
+                await new Promise((resolve, reject) => {
+                    const tx = database.transaction(IDB_STORE, 'readwrite');
+                    const store = tx.objectStore(IDB_STORE);
+                    const req = store.put(payload, IDB_KEY);
+                    req.onsuccess = () => resolve();
+                    req.onerror = () => reject(req.error);
+                });
             } catch (err) {
-                console.warn('IDB save skipped:', err);
+                console.warn('IndexedDB write failed:', err);
             }
         }
 
-        // Persist fallback state across page refreshes & idle tabs using localStorage + IndexedDB + window.name
-        function loadWindowState() {
-            try {
-                if (window.localStorage) {
-                    const lsRaw = window.localStorage.getItem(SESSION_STORE_KEY);
-                    if (lsRaw) {
-                        return JSON.parse(lsRaw);
-                    }
-                }
-            } catch (err) {
-                console.warn('localStorage read fallback:', err);
-            }
+        // Save state across window.name and IndexedDB
+        async function persistLocalState() {
+            const payload = {
+                profileImage: profileImageData,
+                releases: releasesData,
+                demos: submittedDemos,
+                updatedAt: Date.now()
+            };
 
             try {
-                if (!window.name || !window.name.startsWith(SESSION_STORE_KEY)) return null;
-                const raw = window.name.slice(SESSION_STORE_KEY.length);
-                return JSON.parse(raw);
-            } catch (err) {
-                console.warn('Failed reading window state:', err);
-                return null;
-            }
-        }
-
-        function saveWindowState(partial = {}) {
-            try {
-                const current = loadWindowState() || {};
-                const next = {
-                    profileImage: partial.profileImage !== undefined ? partial.profileImage : (current.profileImage || ""),
-                    releases: partial.releases !== undefined ? partial.releases : (current.releases || releasesData),
-                    demos: partial.demos !== undefined ? partial.demos : (current.demos || submittedDemos),
-                    adminPin: partial.adminPin !== undefined ? partial.adminPin : storedAdminPin
-                };
-
-                saveIDBState(next);
-
-                try {
-                    if (window.localStorage) {
-                        window.localStorage.setItem(SESSION_STORE_KEY, JSON.stringify(next));
-                    }
-                } catch (lsErr) {
-                    console.warn('localStorage write warning:', lsErr);
-                }
-
-                const serialized = SESSION_STORE_KEY + JSON.stringify(next);
+                const serialized = JSON.stringify(payload);
                 if (serialized.length < 4500000) {
-                    window.name = serialized;
+                    window.name = WINDOW_NAME_PREFIX + serialized;
                 }
             } catch (err) {
-                console.warn('Failed saving window state:', err);
+                console.warn('window.name save skipped:', err);
             }
+
+            await writeToIndexedDb(payload);
         }
 
-        // Admin Mode Helpers so only owner can update content
-        function updateAdminUI() {
-            const lockIcon = document.getElementById('admin-lock-icon');
-            const modeLabel = document.getElementById('admin-mode-label');
-            const adminBtn = document.getElementById('admin-mode-btn');
-            const mobileLabel = document.getElementById('mobile-admin-label');
-            const statusText = document.getElementById('admin-status-text');
-            const statusBanner = document.getElementById('admin-status-banner');
-            const changePinBox = document.getElementById('admin-change-pin-box');
+        // Load state from IndexedDB or window.name
+        async function loadLocalState() {
+            const fromIdb = await readFromIndexedDb();
+            if (fromIdb && typeof fromIdb === 'object') {
+                return fromIdb;
+            }
 
-            if (isAdminUnlocked) {
-                if (lockIcon) lockIcon.setAttribute('data-lucide', 'unlock');
-                if (modeLabel) modeLabel.textContent = 'Admin Aktif';
-                if (adminBtn) adminBtn.className = "inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs sm:text-sm font-bold border border-emerald-500/40 transition";
-                if (mobileLabel) mobileLabel.textContent = 'Keluar Mode Admin (Kunci)';
-                if (statusBanner) {
-                    statusBanner.className = "mt-2.5 w-full px-3.5 py-2 rounded-xl bg-emerald-950/50 border border-emerald-500/30 text-[11px] text-emerald-300 flex items-center justify-between gap-2";
-                    statusBanner.innerHTML = `<span>Mode Admin Aktif: Anda bebas update</span><button onclick="lockAdminMode()" type="button" class="text-emerald-300 hover:text-white font-bold underline">Kunci</button>`;
+            try {
+                if (typeof window.name === 'string' && window.name.startsWith(WINDOW_NAME_PREFIX)) {
+                    const raw = window.name.slice(WINDOW_NAME_PREFIX.length);
+                    return JSON.parse(raw);
                 }
-                if (changePinBox) changePinBox.classList.remove('hidden');
+            } catch (err) {
+                console.warn('window.name parse failed:', err);
+            }
+            return null;
+        }
+
+        // Compress uploaded image into a lightweight JPEG data URL
+        function compressImageFile(file, maxWidth = 900, quality = 0.8) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(img.width * scale));
+                        canvas.height = Math.max(1, Math.round(img.height * scale));
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = () => reject(new Error('Gagal memproses gambar.'));
+                    img.src = reader.result;
+                };
+                reader.onerror = () => reject(new Error('Gagal membaca file gambar.'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Apply profile photo to navbar and main profile box
+        function applyProfileImage(dataUrl) {
+            profileImageData = dataUrl || '';
+            const navImg = document.getElementById('nav-profile-img');
+            const navFallback = document.getElementById('nav-profile-fallback');
+            const mainImg = document.getElementById('main-profile-img');
+            const mainFallback = document.getElementById('main-profile-fallback');
+
+            if (profileImageData) {
+                if (navImg && navFallback) {
+                    navImg.src = profileImageData;
+                    navImg.classList.remove('hidden');
+                    navFallback.classList.add('hidden');
+                }
+                if (mainImg && mainFallback) {
+                    mainImg.src = profileImageData;
+                    mainImg.classList.remove('hidden');
+                    mainFallback.classList.add('hidden');
+                }
             } else {
-                if (lockIcon) lockIcon.setAttribute('data-lucide', 'lock');
-                if (modeLabel) modeLabel.textContent = 'Mode Tamu';
-                if (adminBtn) adminBtn.className = "inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs sm:text-sm font-semibold border border-zinc-700 transition";
-                if (mobileLabel) mobileLabel.textContent = 'Login Admin Pemilik';
-                if (statusBanner) {
-                    statusBanner.className = "mt-2.5 w-full px-3.5 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-[11px] text-zinc-400 flex items-center justify-between gap-2";
-                    statusBanner.innerHTML = `<span id="admin-status-text">Terkunci: Hanya Anda (Admin) yang bisa update</span><button onclick="openAdminModal()" type="button" class="text-amber-400 hover:text-amber-300 font-bold underline">Login</button>`;
+                if (navImg && navFallback) {
+                    navImg.classList.add('hidden');
+                    navFallback.classList.remove('hidden');
                 }
-                if (changePinBox) changePinBox.classList.add('hidden');
+                if (mainImg && mainFallback) {
+                    mainImg.classList.add('hidden');
+                    mainFallback.classList.remove('hidden');
+                }
             }
-            safeCreateIcons();
         }
 
-        window.openAdminModal = function(afterAction = null) {
-            pendingProtectedAction = afterAction;
-            const modal = document.getElementById('admin-login-modal');
+        // Update admin badge UI
+        function updateAdminUI() {
+            const textEl = document.getElementById('admin-status-text');
+            const iconEl = document.getElementById('admin-lock-icon');
+            if (!textEl || !iconEl) return;
+
+            if (isAdminAuthenticated) {
+                textEl.textContent = 'Admin Aktif';
+                iconEl.setAttribute('data-lucide', 'unlock');
+            } else {
+                textEl.textContent = 'Mode Admin';
+                iconEl.setAttribute('data-lucide', 'lock');
+            }
+            refreshIcons();
+        }
+
+        // Require admin PIN before executing restricted actions
+        function requireAdminAccess(actionFn) {
+            if (isAdminAuthenticated) {
+                actionFn();
+                return;
+            }
+            pendingActionAfterPin = actionFn;
+            const modal = document.getElementById('admin-pin-modal');
             const input = document.getElementById('admin-pin-input');
+            const errEl = document.getElementById('admin-pin-error');
+            if (errEl) errEl.classList.add('hidden');
+            if (input) {
+                input.value = '';
+                setTimeout(() => input.focus(), 50);
+            }
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             }
-            if (input) {
-                input.value = "";
-                setTimeout(() => input.focus(), 50);
+        }
+
+        window.handleAdminButtonClick = function () {
+            if (isAdminAuthenticated) {
+                isAdminAuthenticated = false;
+                pendingActionAfterPin = null;
+                updateAdminUI();
+                renderReleases();
+                showToast('Mode Admin dikunci kembali.');
+                return;
             }
-            updateAdminUI();
-            safeCreateIcons();
+            requireAdminAccess(() => {
+                updateAdminUI();
+                renderReleases();
+                showToast('Mode Admin terbuka.');
+            });
         };
 
-        window.closeAdminModal = function() {
-            pendingProtectedAction = null;
-            const modal = document.getElementById('admin-login-modal');
+        window.closeAdminPinModal = function () {
+            pendingActionAfterPin = null;
+            const modal = document.getElementById('admin-pin-modal');
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }
         };
 
-        window.lockAdminMode = function() {
-            isAdminUnlocked = false;
-            updateAdminUI();
-            window.showToast('Mode Admin dikunci. Orang lain tidak dapat mengubah website.');
-        };
-
-        window.toggleAdminAuth = function() {
-            if (isAdminUnlocked) {
-                window.lockAdminMode();
-            } else {
-                window.openAdminModal(null);
-            }
-        };
-
-        window.handleAdminPinSubmit = function(e) {
-            e.preventDefault();
-            const input = document.getElementById('admin-pin-input');
-            const pinValue = input ? input.value.trim() : "";
-
-            if (pinValue === storedAdminPin) {
-                isAdminUnlocked = true;
-                const actionToRun = pendingProtectedAction;
-                window.closeAdminModal();
-                updateAdminUI();
-                window.showToast('Login Admin berhasil! Sekarang hanya Anda yang bisa mengupdate.');
-                if (typeof actionToRun === 'function') {
-                    actionToRun();
-                }
-            } else {
-                window.showToast('PIN Admin salah! Orang lain tidak memiliki akses update.', 'error');
-            }
-        };
-
-        window.saveNewAdminPin = async function() {
-            const newPinInput = document.getElementById('new-admin-pin-input');
-            const newPin = newPinInput ? newPinInput.value.trim() : "";
-            if (!newPin || newPin.length < 4) {
-                window.showToast('PIN baru minimal 4 karakter.', 'error');
-                return;
-            }
-
-            storedAdminPin = newPin;
-            saveWindowState({ adminPin: newPin });
-            if (db && currentUser) {
-                try {
-                    const securityRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_settings', 'security');
-                    await setDoc(securityRef, { adminPin: newPin, updatedAt: Date.now() }, { merge: true });
-                } catch (err) {
-                    console.warn('PIN sync warning:', err);
-                }
-            }
-            if (newPinInput) newPinInput.value = "";
-            window.showToast('PIN rahasia Admin berhasil diperbarui!');
-        };
-
-        function requireAdminAccess(actionFn) {
-            if (isAdminUnlocked) {
-                actionFn();
-            } else {
-                window.openAdminModal(actionFn);
-            }
-        }
-
-        // 1. Handle Profile Photo Upload & Save Permanently (Admin Only)
-        window.triggerProfileUpload = function() {
+        // Trigger profile photo upload
+        window.triggerProfileUpload = function () {
             requireAdminAccess(() => {
                 const input = document.getElementById('profile-photo-input');
                 if (input) input.click();
             });
         };
 
-        // Toast Notification System
-        window.showToast = function(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            const toast = document.createElement('div');
-            const bgClass = type === 'success' ? 'bg-zinc-900 border-amber-500/50 text-white' : 'bg-red-950 border-red-500/50 text-red-100';
-            const iconName = type === 'success' ? 'check-circle-2' : 'alert-circle';
-            const iconColor = type === 'success' ? 'text-amber-400' : 'text-red-400';
-
-            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl border shadow-2xl ${bgClass} transition-all duration-300 transform translate-y-2 opacity-0`;
-            toast.innerHTML = `
-                <i data-lucide="${iconName}" class="w-5 h-5 ${iconColor} shrink-0"></i>
-                <p class="text-xs sm:text-sm font-medium">${message}</p>
-            `;
-            container.appendChild(toast);
-            safeCreateIcons();
-
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            });
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        };
-
-        // Compress Image Helper so Firestore stays fast & within 1MB document limit
-        function compressImageFile(file, maxWidth = 800, quality = 0.8) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > maxWidth || height > maxWidth) {
-                            if (width > height) {
-                                height = Math.round((height * maxWidth) / width);
-                                width = maxWidth;
-                            } else {
-                                width = Math.round((width * maxWidth) / height);
-                                height = maxWidth;
-                            }
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.onerror = reject;
-                    img.src = event.target.result;
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
+        // Sync profile image to public Firestore when connected
+        async function syncProfileToCloud(dataUrl) {
+            if (!db || !currentUser) return;
+            try {
+                const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_profile', 'main');
+                await setDoc(profileRef, {
+                    imageUrl: dataUrl,
+                    updatedAt: Date.now()
+                }, { merge: true });
+            } catch (err) {
+                console.warn('Cloud profile sync skipped:', err);
+            }
         }
 
-        // Apply Profile Image to UI
-        function applyProfileImage(imgData) {
-            if (!imgData) return;
-            const navImg = document.getElementById('nav-profile-img');
-            const heroImg = document.getElementById('hero-profile-img');
-            const footerImg = document.getElementById('footer-profile-img');
-            if (navImg) navImg.src = imgData;
-            if (heroImg) heroImg.src = imgData;
-            if (footerImg) footerImg.src = imgData;
+        // Sync single release to public Firestore when connected
+        async function syncReleaseToCloud(release) {
+            if (!db || !currentUser || !release || !release.id) return;
+            try {
+                const relRef = doc(db, 'artifacts', appId, 'public', 'data', 'releases', release.id);
+                await setDoc(relRef, release, { merge: true });
+            } catch (err) {
+                console.warn('Cloud release sync skipped:', err);
+            }
         }
 
-        // 1. Handle Profile Photo Upload & Save Permanently
-        window.triggerProfileUpload = function() {
-            const input = document.getElementById('profile-photo-input');
-            if (input) input.click();
-        };
-
-        function setupProfileUploadListener() {
-            const profileInput = document.getElementById('profile-photo-input');
-            if (!profileInput) return;
-            profileInput.addEventListener('change', async function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                if (!file.type.startsWith('image/')) {
-                    window.showToast('Harap pilih file gambar (JPG/PNG).', 'error');
-                    return;
-                }
-
-                try {
-                    window.showToast('Menyimpan foto profil...');
-                    const compressedDataUrl = await compressImageFile(file, 500, 0.85);
-                    applyProfileImage(compressedDataUrl);
-                    saveWindowState({ profileImage: compressedDataUrl });
-
-                    if (db && currentUser) {
-                        const profileDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_settings', 'profile');
-                        await setDoc(profileDocRef, {
-                            imageUrl: compressedDataUrl,
-                            updatedAt: Date.now()
-                        }, { merge: true });
-                    }
-                    window.showToast('Foto profil Jakpus ID Record berhasil disimpan dan tetap ada setelah refresh!');
-                } catch (err) {
-                    console.error('Error saving profile photo:', err);
-                    window.showToast('Gagal menyimpan foto profil.', 'error');
-                } finally {
-                    profileInput.value = '';
-                }
-            });
+        // Delete release from public Firestore when connected
+        async function deleteReleaseFromCloud(releaseId) {
+            if (!db || !currentUser || !releaseId) return;
+            try {
+                const relRef = doc(db, 'artifacts', appId, 'public', 'data', 'releases', releaseId);
+                await deleteDoc(relRef);
+            } catch (err) {
+                console.warn('Cloud release delete skipped:', err);
+            }
         }
 
-        // 2. Render Artists Roster
-        function renderArtists() {
-            const grid = document.getElementById('artists-grid');
-            if (!grid) return;
-            grid.innerHTML = rosterArtists.map(artist => `
-                <div class="group bg-brand-card border border-zinc-800/90 hover:border-amber-500/50 rounded-3xl p-4 text-center transition duration-300 hover:-translate-y-1">
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-gradient-to-br ${artist.color} flex items-center justify-center shadow-lg mb-3 relative overflow-hidden">
-                        <span class="font-display font-extrabold text-xl sm:text-2xl text-white tracking-wider">${artist.initials}</span>
-                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <i data-lucide="disc-3" class="w-7 h-7 text-white vinyl-spin"></i>
-                        </div>
-                    </div>
-                    <h3 class="font-display font-bold text-sm sm:text-base text-white truncate">${artist.name}</h3>
-                    <p class="text-[11px] text-amber-400/90 font-medium mt-0.5">${artist.role}</p>
-                </div>
-            `).join('');
-            safeCreateIcons();
-        }
-
-        // 3. Render Releases Section
+        // Render releases grid or empty state
         function renderReleases() {
             const grid = document.getElementById('releases-grid');
             const emptyState = document.getElementById('releases-empty-state');
-            const totalViewsEl = document.getElementById('total-release-views');
             if (!grid || !emptyState) return;
 
-            const totalViews = releasesData.reduce((sum, r) => sum + (Number(r.views) || 0), 0);
-            if (totalViewsEl) totalViewsEl.textContent = totalViews.toLocaleString('id-ID');
-
-            if (releasesData.length === 0) {
-                emptyState.classList.remove('hidden');
+            if (!Array.isArray(releasesData) || releasesData.length === 0) {
                 grid.classList.add('hidden');
-                grid.innerHTML = '';
-            } else {
-                emptyState.classList.add('hidden');
-                grid.classList.remove('hidden');
-                grid.innerHTML = releasesData.map(item => {
-                    const watchUrl = item.url && item.url.trim() ? item.url.trim() : 'https://youtube.com';
-                    const viewsCount = Number(item.views) || 1;
-                    return `
-                    <div class="group bg-brand-card border border-zinc-800 hover:border-amber-500/50 rounded-3xl overflow-hidden shadow-lg transition duration-300 flex flex-col">
-                        <div class="relative aspect-square overflow-hidden bg-zinc-900">
-                            <img src="${item.cover}" 
-                                 onerror="this.src='https://placehold.co/600x600/18181B/F59E0B?text=JAKPUS+ID+RELEASE'"
-                                 alt="${item.title}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80"></div>
-                            <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md border border-zinc-700/80 text-[11px] font-semibold text-amber-400">
-                                ${item.type}
-                            </span>
-                            <span class="absolute top-3 right-12 px-2.5 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md border border-zinc-700/80 text-[11px] font-medium text-zinc-200 inline-flex items-center gap-1">
-                                <i data-lucide="eye" class="w-3 h-3 text-amber-400"></i>
-                                ${viewsCount.toLocaleString('id-ID')}
-                            </span>
-                            <button onclick="deleteRelease('${item.id}')" title="Hapus Rilisan" class="absolute top-3 right-3 p-2 rounded-full bg-zinc-950/80 hover:bg-red-600 text-zinc-300 hover:text-white transition opacity-90 sm:opacity-0 sm:group-hover:opacity-100">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
-                            <div class="absolute bottom-3 left-4 right-4">
-                                <p class="text-xs font-semibold text-amber-400">${item.artist}</p>
-                                <h3 class="font-display font-bold text-lg text-white leading-snug truncate">${item.title}</h3>
+                grid.classList.remove('grid');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.classList.remove('hidden');
+            grid.classList.add('grid');
+
+            grid.innerHTML = releasesData.map((item) => {
+                const viewsCount = Number(item.views || 0);
+                const deleteBtnHtml = isAdminAuthenticated
+                    ? `<button type="button" onclick="handleDeleteRelease('${escapeAttr(item.id)}')" class="inline-flex items-center gap-1 rounded-lg border border-rose-500/30 bg-rose-500/10 px-2.5 py-1.5 text-xs font-semibold text-rose-300 hover:bg-rose-500/20 cursor-pointer">
+                        <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                        <span>Hapus</span>
+                       </button>`
+                    : '';
+
+                return `
+                    <article class="glass-card overflow-hidden rounded-2xl flex flex-col justify-between group">
+                        <div>
+                            <div onclick="openWatchRelease('${escapeAttr(item.id)}')" class="relative aspect-square w-full overflow-hidden bg-zinc-900 cursor-pointer">
+                                <img
+                                    src="${escapeAttr(item.imageUrl || '')}"
+                                    alt="${escapeAttr(item.title || 'Rilisan')}"
+                                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    onerror="this.style.display='none';"
+                                />
+                                <span class="absolute top-3 left-3 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-semibold text-zinc-200 backdrop-blur-sm">
+                                    ${escapeHtml(item.category || 'Rilisan')}
+                                </span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-base font-bold text-white line-clamp-1">${escapeHtml(item.title || '')}</h3>
+                                <p class="text-sm text-zinc-400 mt-0.5 line-clamp-1">${escapeHtml(item.artist || '')}</p>
+                                <div class="mt-2 inline-flex items-center gap-1 text-xs text-zinc-400">
+                                    <i data-lucide="eye" class="h-3.5 w-3.5 text-rose-400"></i>
+                                    <span>${viewsCount} dilihat</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="p-4 flex items-center justify-between gap-2 bg-zinc-950/60 mt-auto border-t border-zinc-800/70">
-                            <button onclick="shareRelease('${item.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-semibold text-zinc-200 transition">
-                                <i data-lucide="share-2" class="w-3.5 h-3.5 text-amber-400"></i>
-                                <span>Bagikan</span>
-                            </button>
-                            <button onclick="openReleaseWatch('${item.id}', '${encodeURIComponent(watchUrl)}')" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 transition">
-                                <i data-lucide="play-circle" class="w-4 h-4"></i>
-                                <span>Tonton Rilisan</span>
-                            </button>
+                        <div class="flex items-center justify-between gap-2 border-t border-white/10 px-4 py-3">
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="openWatchRelease('${escapeAttr(item.id)}')" class="inline-flex items-center gap-1 rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-rose-500 cursor-pointer">
+                                    <i data-lucide="play" class="h-3.5 w-3.5"></i>
+                                    <span>Lihat</span>
+                                </button>
+                                <button type="button" onclick="shareReleaseById('${escapeAttr(item.id)}')" class="inline-flex items-center gap-1 rounded-lg border border-white/15 bg-zinc-800 px-2.5 py-1.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-700 cursor-pointer">
+                                    <i data-lucide="share-2" class="h-3.5 w-3.5"></i>
+                                    <span>Bagikan</span>
+                                </button>
+                            </div>
+                            ${deleteBtnHtml}
                         </div>
-                    </div>
+                    </article>
                 `;
-                }).join('');
-            }
+            }).join('');
 
-            const statEl = document.getElementById('release-count-stat');
-            if (statEl) statEl.textContent = releasesData.length;
-            safeCreateIcons();
+            refreshIcons();
         }
 
-        window.openReleaseWatch = async function(id, encodedUrl) {
-            const url = decodeURIComponent(encodedUrl || 'https%3A%2F%2Fyoutube.com');
-            const target = releasesData.find(r => r.id === id);
-            const nextViews = (Number(target?.views) || 1) + 1;
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
-            if (target) {
-                target.views = nextViews;
-                saveWindowState({ releases: releasesData });
-                renderReleases();
-            }
+        function escapeAttr(str) {
+            return escapeHtml(str);
+        }
 
-            if (db && currentUser && id && !id.startsWith('local-')) {
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'releases', id);
-                    await updateDoc(docRef, { views: nextViews });
-                } catch (err) {
-                    console.warn('View update skipped:', err);
-                }
-            }
-
-            window.open(url, '_blank', 'noopener,noreferrer');
-        };
-
-        window.shareRelease = function(id) {
-            const item = releasesData.find(r => r.id === id);
-            if (!item) return;
-            const shareText = `Dengerin & tonton rilisan terbaru "${item.title}" dari ${item.artist} di Jakpus ID Record!${item.url ? ' ' + item.url : ''}`;
-            window.copyText(shareText, `Teks & link rilisan "${item.title}" disalin untuk dibagikan!`);
-        };
-
-        window.openReleaseModal = function() {
+        window.openAddReleaseModal = function () {
             requireAdminAccess(() => {
-                const modal = document.getElementById('release-modal');
+                const modal = document.getElementById('add-release-modal');
+                const form = document.getElementById('add-release-form');
+                if (form) form.reset();
                 if (modal) {
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
                 }
-                safeCreateIcons();
+                refreshIcons();
             });
         };
 
-        window.closeReleaseModal = function() {
-            const modal = document.getElementById('release-modal');
+        window.closeAddReleaseModal = function () {
+            const modal = document.getElementById('add-release-modal');
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }
-            const form = document.getElementById('release-form');
-            if (form) form.reset();
-            tempReleaseImageBase64 = "";
-            const preview = document.getElementById('release-preview-img');
-            const placeholder = document.getElementById('release-upload-placeholder');
-            if (preview) preview.classList.add('hidden');
-            if (placeholder) placeholder.classList.remove('hidden');
         };
 
-        window.previewReleaseImage = async function(input) {
-            const file = input.files[0];
-            if (!file) return;
-            try {
-                tempReleaseImageBase64 = await compressImageFile(file, 700, 0.82);
-                const preview = document.getElementById('release-preview-img');
-                const placeholder = document.getElementById('release-upload-placeholder');
-                if (preview) {
-                    preview.src = tempReleaseImageBase64;
-                    preview.classList.remove('hidden');
-                }
-                if (placeholder) placeholder.classList.add('hidden');
-            } catch (err) {
-                window.showToast('Gagal memproses gambar cover.', 'error');
-            }
-        };
+        window.openWatchRelease = async function (releaseId) {
+            const item = releasesData.find((r) => r.id === releaseId);
+            if (!item) return;
 
-        window.handleAddRelease = async function(e) {
-            e.preventDefault();
-            if (!isAdminUnlocked) {
-                window.openAdminModal();
-                return;
-            }
-            const title = document.getElementById('release-title').value.trim();
-            const artist = document.getElementById('release-artist').value.trim();
-            const type = document.getElementById('release-type').value;
-            const url = document.getElementById('release-url').value.trim();
+            item.views = Number(item.views || 0) + 1;
+            activeWatchedRelease = item;
 
-            if (!tempReleaseImageBase64) {
-                window.showToast('Silakan pilih foto cover rilisan terlebih dahulu.', 'error');
-                return;
-            }
+            renderReleases();
+            await persistLocalState();
+            await syncReleaseToCloud(item);
 
-            const btnSave = document.getElementById('btn-save-release');
-            if (btnSave) {
-                btnSave.disabled = true;
-                btnSave.textContent = 'Menyimpan...';
-            }
+            const modal = document.getElementById('watch-release-modal');
+            const img = document.getElementById('watch-release-img');
+            const cat = document.getElementById('watch-release-category');
+            const title = document.getElementById('watch-release-title');
+            const artist = document.getElementById('watch-release-artist');
+            const views = document.getElementById('watch-release-views');
+            const extLink = document.getElementById('watch-release-external-link');
 
-            try {
-                if (db && currentUser) {
-                    const releasesCol = collection(db, 'artifacts', appId, 'public', 'data', 'releases');
-                    await addDoc(releasesCol, {
-                        title,
-                        artist,
-                        type,
-                        url,
-                        views: 1,
-                        year: new Date().getFullYear().toString(),
-                        cover: tempReleaseImageBase64,
-                        createdAt: Date.now()
-                    });
+            if (img) img.src = item.imageUrl || '';
+            if (cat) cat.textContent = item.category || 'Rilisan';
+            if (title) title.textContent = item.title || '';
+            if (artist) artist.textContent = item.artist || '';
+            if (views) views.textContent = `${item.views} kali dilihat`;
+
+            if (extLink) {
+                if (item.url) {
+                    extLink.href = item.url;
+                    extLink.classList.remove('hidden');
+                    extLink.classList.add('inline-flex');
                 } else {
-                    releasesData.unshift({
-                        id: 'local-' + Date.now(),
-                        title,
-                        artist,
-                        type,
-                        url,
-                        views: 1,
-                        year: new Date().getFullYear().toString(),
-                        cover: tempReleaseImageBase64,
-                        createdAt: Date.now()
-                    });
-                    saveWindowState({ releases: releasesData });
-                    renderReleases();
+                    extLink.classList.add('hidden');
+                    extLink.classList.remove('inline-flex');
                 }
+            }
 
-                window.closeReleaseModal();
-                window.showToast(`Rilisan "${title}" berhasil dipublikasikan & siap dibagikan!`);
-            } catch (err) {
-                console.error('Error adding release:', err);
-                window.showToast('Gagal menyimpan rilisan baru.', 'error');
-            } finally {
-                if (btnSave) {
-                    btnSave.disabled = false;
-                    btnSave.textContent = 'Simpan Rilisan';
-                }
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+            refreshIcons();
+        };
+
+        window.closeWatchReleaseModal = function () {
+            const modal = document.getElementById('watch-release-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }
         };
 
-        window.deleteRelease = async function(id) {
+        function copyTextFallback(text) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            temp.setAttribute('readonly', '');
+            temp.style.position = 'fixed';
+            temp.style.opacity = '0';
+            document.body.appendChild(temp);
+            temp.select();
+            try {
+                document.execCommand('copy');
+                showToast('Tautan rilisan disalin ke clipboard.');
+            } catch (err) {
+                showToast('Gagal menyalin tautan.');
+            }
+            document.body.removeChild(temp);
+        }
+
+        window.shareReleaseById = function (releaseId) {
+            const item = releasesData.find((r) => r.id === releaseId);
+            const shareText = item
+                ? `${item.title} — ${item.artist} | Jakpus ID Record (${item.url || window.location.href})`
+                : window.location.href;
+            copyTextFallback(shareText);
+        };
+
+        window.shareCurrentWatchedRelease = function () {
+            if (!activeWatchedRelease) return;
+            const shareText = `${activeWatchedRelease.title} — ${activeWatchedRelease.artist} | Jakpus ID Record (${activeWatchedRelease.url || window.location.href})`;
+            copyTextFallback(shareText);
+        };
+
+        window.handleDeleteRelease = async function (releaseId) {
             requireAdminAccess(async () => {
-                try {
-                    if (db && currentUser && !id.startsWith('local-')) {
-                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'releases', id);
-                        await deleteDoc(docRef);
-                    } else {
-                        releasesData = releasesData.filter(r => r.id !== id);
-                        saveWindowState({ releases: releasesData });
-                        renderReleases();
-                    }
-                    window.showToast('Rilisan telah dihapus.');
-                } catch (err) {
-                    console.error('Error deleting release:', err);
-                    window.showToast('Gagal menghapus rilisan.', 'error');
-                }
+                releasesData = releasesData.filter((r) => r.id !== releaseId);
+                renderReleases();
+                await persistLocalState();
+                await deleteReleaseFromCloud(releaseId);
+                showToast('Rilisan berhasil dihapus.');
             });
-        };
-
-        // 4. Language Toggle (ID / EN)
-        window.setLanguage = function(lang) {
-            const bioId = document.getElementById('bio-id');
-            const bioEn = document.getElementById('bio-en');
-            const btnId = document.getElementById('btn-lang-id');
-            const btnEn = document.getElementById('btn-lang-en');
-            if (!bioId || !bioEn || !btnId || !btnEn) return;
-
-            if (lang === 'id') {
-                bioId.classList.remove('hidden');
-                bioId.classList.add('grid');
-                bioEn.classList.add('hidden');
-                bioEn.classList.remove('grid');
-                btnId.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-zinc-950 transition";
-                btnEn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition";
-            } else {
-                bioEn.classList.remove('hidden');
-                bioEn.classList.add('grid');
-                bioId.classList.add('hidden');
-                bioId.classList.remove('grid');
-                btnEn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-zinc-950 transition";
-                btnId.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition";
-            }
-        };
-
-        // 5. Demo Submission Logic
-        window.updateAudioLabel = function(input) {
-            const label = document.getElementById('demo-file-label');
-            if (!label) return;
-            if (input.files && input.files[0]) {
-                label.textContent = input.files[0].name;
-                label.classList.add('text-amber-400');
-            } else {
-                label.textContent = "Pilih file audio demo...";
-                label.classList.remove('text-amber-400');
-            }
-        };
-
-        window.handleDemoSubmit = async function(e) {
-            e.preventDefault();
-            const artist = document.getElementById('demo-artist').value.trim();
-            const title = document.getElementById('demo-title').value.trim();
-            const genre = document.getElementById('demo-genre').value;
-            const phone = document.getElementById('demo-phone').value.trim();
-            const email = document.getElementById('demo-email').value.trim();
-            const link = document.getElementById('demo-link').value.trim();
-            const notes = document.getElementById('demo-notes').value.trim();
-            const audioInput = document.getElementById('demo-audio-file');
-            const fileName = audioInput && audioInput.files[0] ? audioInput.files[0].name : (link ? 'Link Demo Terlampir' : 'Tanpa Lampiran File');
-
-            const btnSubmit = document.getElementById('btn-submit-demo');
-            if (btnSubmit) {
-                btnSubmit.disabled = true;
-                btnSubmit.innerHTML = '<span>Mengirim Demo...</span>';
-            }
-
-            try {
-                const demoPayload = {
-                    artist,
-                    title,
-                    genre,
-                    phone,
-                    email,
-                    link,
-                    notes,
-                    fileName,
-                    time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-                    createdAt: Date.now()
-                };
-
-                if (db && currentUser) {
-                    const demosCol = collection(db, 'artifacts', appId, 'public', 'data', 'demos');
-                    await addDoc(demosCol, demoPayload);
-                } else {
-                    submittedDemos.unshift(demoPayload);
-                    saveWindowState({ demos: submittedDemos });
-                    renderSubmittedDemos();
-                }
-
-                const demoForm = document.getElementById('demo-form');
-                if (demoForm) demoForm.reset();
-                const fileLabel = document.getElementById('demo-file-label');
-                if (fileLabel) {
-                    fileLabel.textContent = "Pilih file audio demo...";
-                    fileLabel.classList.remove('text-amber-400');
-                }
-                window.showToast(`Demo "${title}" oleh ${artist} berhasil dikirim & tersimpan!`);
-            } catch (err) {
-                console.error('Error submitting demo:', err);
-                window.showToast('Gagal mengirim demo.', 'error');
-            } finally {
-                if (btnSubmit) {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i><span>Kirim Demo Sekarang</span>';
-                    safeCreateIcons();
-                }
-            }
         };
 
         function renderSubmittedDemos() {
             const wrapper = document.getElementById('submitted-demos-wrapper');
             const list = document.getElementById('submitted-demos-list');
-            const count = document.getElementById('demo-count');
-            if (!wrapper || !list || !count) return;
+            if (!wrapper || !list) return;
 
-            if (submittedDemos.length === 0) {
+            if (!Array.isArray(submittedDemos) || submittedDemos.length === 0) {
                 wrapper.classList.add('hidden');
                 return;
             }
 
             wrapper.classList.remove('hidden');
-            count.textContent = submittedDemos.length;
-            list.innerHTML = submittedDemos.map(d => `
-                <div class="p-3.5 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-between gap-3">
-                    <div class="min-w-0">
-                        <p class="text-sm font-bold text-white truncate">${d.title} — <span class="text-amber-400">${d.artist}</span></p>
-                        <p class="text-xs text-zinc-400 truncate">${d.genre} • ${d.fileName}</p>
-                    </div>
-                    <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-[11px] font-semibold shrink-0">
-                        Terkirim (${d.time})
-                    </span>
+            list.innerHTML = submittedDemos.map((demo) => `
+                <div class="rounded-xl border border-white/10 bg-zinc-900/90 p-3 text-xs">
+                    <div class="font-bold text-white">${escapeHtml(demo.title)} <span class="font-normal text-zinc-400">— ${escapeHtml(demo.artist)}</span></div>
+                    <div class="text-zinc-400 mt-0.5">Kontak: ${escapeHtml(demo.contact)}</div>
+                    ${demo.link ? `<div class="text-rose-300 mt-0.5 break-all">${escapeHtml(demo.link)}</div>` : ''}
                 </div>
             `).join('');
         }
 
-        window.sendDemoViaWhatsApp = function() {
-            const artist = document.getElementById('demo-artist').value.trim() || '[Nama Artis]';
-            const title = document.getElementById('demo-title').value.trim() || '[Judul Lagu]';
-            const genre = document.getElementById('demo-genre').value;
-            const link = document.getElementById('demo-link').value.trim() || '-';
+        window.sendDemoToWhatsApp = function () {
+            const artist = document.getElementById('demo-artist')?.value.trim() || '-';
+            const title = document.getElementById('demo-title')?.value.trim() || '-';
+            const contact = document.getElementById('demo-contact')?.value.trim() || '-';
+            const link = document.getElementById('demo-link')?.value.trim() || '-';
+            const notes = document.getElementById('demo-notes')?.value.trim() || '-';
 
-            const message = encodeURIComponent(
-                `Halo Jakpus ID Record,\nSaya ingin mengirimkan demo lagu:\n• Artis/Band: ${artist}\n• Judul Lagu: ${title}\n• Genre: ${genre}\n• Link Demo: ${link}\n\nTerima kasih.`
+            const text = encodeURIComponent(
+                `Halo Jakpus ID Record, saya ingin mengirim demo lagu:\n` +
+                `Artis/Band: ${artist}\n` +
+                `Judul Lagu: ${title}\n` +
+                `Kontak: ${contact}\n` +
+                `Link: ${link}\n` +
+                `Catatan: ${notes}`
             );
-            window.open(`https://wa.me/62889506965311?text=${message}`, '_blank');
+            window.open(`https://wa.me/62889506965311?text=${text}`, '_blank', 'noopener,noreferrer');
         };
 
-        // 6. Copy to Clipboard Helper
-        window.copyText = function(text, successMsg) {
-            const tempInput = document.createElement('input');
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            window.showToast(successMsg);
+        // Mobile menu controls
+        window.closeMobileMenu = function () {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.add('hidden');
         };
 
-        // 7. Initialize Firestore Persistence & Realtime Sync
-        async function initAppStorage() {
-            let cachedState = loadWindowState();
-            const idbState = await loadIDBState();
-            if (idbState) {
-                cachedState = {
-                    ...(cachedState || {}),
-                    profileImage: idbState.profileImage || cachedState?.profileImage || "",
-                    releases: (Array.isArray(idbState.releases) && idbState.releases.length > 0)
-                        ? idbState.releases
-                        : (cachedState?.releases || []),
-                    demos: (Array.isArray(idbState.demos) && idbState.demos.length > 0)
-                        ? idbState.demos
-                        : (cachedState?.demos || []),
-                    adminPin: idbState.adminPin || cachedState?.adminPin || storedAdminPin
-                };
-            }
-
-            if (cachedState) {
-                if (cachedState.profileImage) {
-                    applyProfileImage(cachedState.profileImage);
-                }
-                if (Array.isArray(cachedState.releases)) {
-                    releasesData = cachedState.releases;
-                }
-                if (Array.isArray(cachedState.demos)) {
-                    submittedDemos = cachedState.demos;
-                }
-                if (cachedState.adminPin) {
-                    storedAdminPin = cachedState.adminPin;
-                }
-            }
-
-            renderArtists();
-            renderReleases();
-            renderSubmittedDemos();
-            updateAdminUI();
-            safeCreateIcons();
-
-            const statusBadge = document.getElementById('storage-status-badge');
-
-            try {
-                if (typeof __firebase_config === 'undefined') {
-                    if (statusBadge) {
-                        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="text-emerald-300">Penyimpanan Sesi Aktif (Anti-Refresh)</span>`;
-                    }
-                    return;
-                }
-
-                const firebaseConfig = JSON.parse(__firebase_config);
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                onAuthStateChanged(auth, (user) => {
-                    if (!user) return;
-                    currentUser = user;
-
-                    if (statusBadge) {
-                        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="text-emerald-400">Penyimpanan Permanen Aktif</span>`;
-                    }
-
-                    // Sync Profile Photo
-                    const profileDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_settings', 'profile');
-                    onSnapshot(profileDocRef, (snapshot) => {
-                        const cloudImg = snapshot.exists() ? snapshot.data().imageUrl : "";
-                        if (cloudImg) {
-                            applyProfileImage(cloudImg);
-                            saveWindowState({ profileImage: cloudImg });
-                        } else if (cachedState && cachedState.profileImage) {
-                            applyProfileImage(cachedState.profileImage);
-                            setDoc(profileDocRef, { imageUrl: cachedState.profileImage, updatedAt: Date.now() }, { merge: true }).catch(() => {});
-                        }
-                    }, (err) => console.error('Profile sync error:', err));
-
-                    // Sync Admin PIN Setting
-                    const securityDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_settings', 'security');
-                    onSnapshot(securityDocRef, (snapshot) => {
-                        if (snapshot.exists() && snapshot.data().adminPin) {
-                            storedAdminPin = snapshot.data().adminPin;
-                            saveWindowState({ adminPin: storedAdminPin });
-                        }
-                    }, (err) => console.error('Security sync error:', err));
-
-                    // Sync Releases Collection
-                    const releasesCol = collection(db, 'artifacts', appId, 'public', 'data', 'releases');
-                    onSnapshot(releasesCol, (snapshot) => {
-                        const loaded = [];
-                        snapshot.forEach((docSnap) => {
-                            loaded.push({ id: docSnap.id, ...docSnap.data() });
-                        });
-                        loaded.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                        if (loaded.length > 0 || !cachedState || !Array.isArray(cachedState.releases) || cachedState.releases.length === 0) {
-                            releasesData = loaded;
-                            saveWindowState({ releases: loaded });
-                        }
-                        renderReleases();
-                    }, (err) => console.error('Releases sync error:', err));
-
-                    // Sync Demos Collection
-                    const demosCol = collection(db, 'artifacts', appId, 'public', 'data', 'demos');
-                    onSnapshot(demosCol, (snapshot) => {
-                        const loadedDemos = [];
-                        snapshot.forEach((docSnap) => {
-                            loadedDemos.push({ id: docSnap.id, ...docSnap.data() });
-                        });
-                        loadedDemos.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                        if (loadedDemos.length > 0 || !cachedState || !Array.isArray(cachedState.demos) || cachedState.demos.length === 0) {
-                            submittedDemos = loadedDemos;
-                            saveWindowState({ demos: loadedDemos });
-                        }
-                        renderSubmittedDemos();
-                    }, (err) => console.error('Demos sync error:', err));
+        function setupNavigation() {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (menuBtn && menu) {
+                menuBtn.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
                 });
-            } catch (error) {
-                console.error('Storage initialization error:', error);
-                if (statusBadge) {
-                    statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Penyimpanan Sesi Aktif</span>`;
-                }
             }
         }
 
-        // Start App safely after DOM is ready
-        function bootstrapApp() {
-            setupMobileNavigation();
-            setupProfileUploadListener();
-            safeCreateIcons();
-            initAppStorage();
+        function setupFormsAndUploads() {
+            // Admin PIN form
+            const pinForm = document.getElementById('admin-pin-form');
+            if (pinForm) {
+                pinForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const input = document.getElementById('admin-pin-input');
+                    const errEl = document.getElementById('admin-pin-error');
+                    const entered = input ? input.value.trim() : '';
+
+                    if (entered === SECRET_PIN) {
+                        isAdminAuthenticated = true;
+                        const nextFn = pendingActionAfterPin;
+                        pendingActionAfterPin = null;
+                        const modal = document.getElementById('admin-pin-modal');
+                        if (modal) {
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        }
+                        updateAdminUI();
+                        renderReleases();
+                        if (typeof nextFn === 'function') {
+                            nextFn();
+                        }
+                    } else if (errEl) {
+                        errEl.classList.remove('hidden');
+                    }
+                });
+            }
+
+            // Profile photo file upload
+            const profileInput = document.getElementById('profile-photo-input');
+            if (profileInput) {
+                profileInput.addEventListener('change', async (e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+                    try {
+                        const compressed = await compressImageFile(file, 600, 0.82);
+                        applyProfileImage(compressed);
+                        await persistLocalState();
+                        await syncProfileToCloud(compressed);
+                        showToast('Foto profil berhasil diperbarui dan disimpan.');
+                    } catch (err) {
+                        showToast('Gagal mengunggah foto profil.');
+                    } finally {
+                        e.target.value = '';
+                    }
+                });
+            }
+
+            // Add release form
+            const releaseForm = document.getElementById('add-release-form');
+            if (releaseForm) {
+                releaseForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const title = document.getElementById('release-title')?.value.trim() || '';
+                    const artist = document.getElementById('release-artist')?.value.trim() || '';
+                    const category = document.getElementById('release-category')?.value || 'Official Single';
+                    const url = document.getElementById('release-url')?.value.trim() || '';
+                    const imgInput = document.getElementById('release-image-input');
+                    const file = imgInput && imgInput.files ? imgInput.files[0] : null;
+
+                    if (!title || !artist || !file) {
+                        showToast('Lengkapi judul, artis, dan foto rilisan.');
+                        return;
+                    }
+
+                    try {
+                        const imageUrl = await compressImageFile(file, 900, 0.8);
+                        const newRelease = {
+                            id: 'rel_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+                            title,
+                            artist,
+                            category,
+                            url,
+                            imageUrl,
+                            views: 0,
+                            createdAt: Date.now()
+                        };
+
+                        releasesData = [newRelease, ...releasesData];
+                        renderReleases();
+                        window.closeAddReleaseModal();
+                        await persistLocalState();
+                        await syncReleaseToCloud(newRelease);
+                        showToast('Rilisan berhasil ditambahkan.');
+                    } catch (err) {
+                        showToast('Gagal menyimpan foto rilisan.');
+                    }
+                });
+            }
+
+            // Demo submission form
+            const demoForm = document.getElementById('demo-form');
+            if (demoForm) {
+                demoForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const artist = document.getElementById('demo-artist')?.value.trim() || '';
+                    const title = document.getElementById('demo-title')?.value.trim() || '';
+                    const contact = document.getElementById('demo-contact')?.value.trim() || '';
+                    const link = document.getElementById('demo-link')?.value.trim() || '';
+                    const notes = document.getElementById('demo-notes')?.value.trim() || '';
+
+                    if (!artist || !title || !contact) {
+                        showToast('Lengkapi nama artis, judul lagu, dan kontak.');
+                        return;
+                    }
+
+                    const entry = {
+                        id: 'demo_' + Date.now(),
+                        artist,
+                        title,
+                        contact,
+                        link,
+                        notes,
+                        createdAt: Date.now()
+                    };
+
+                    submittedDemos = [entry, ...submittedDemos];
+                    renderSubmittedDemos();
+                    await persistLocalState();
+                    demoForm.reset();
+                    showToast('Demo lagu berhasil dikirim.');
+                });
+            }
+        }
+
+        // Attach public Firestore listeners when Firebase environment is configured
+        function attachPublicListeners() {
+            if (!db || !currentUser) return;
+
+            const statusBadge = document.getElementById('storage-status-badge');
+            if (statusBadge) {
+                statusBadge.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>Sinkron Publik Aktif</span>`;
+            }
+
+            const profileDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_profile', 'main');
+            onSnapshot(
+                profileDocRef,
+                async (snap) => {
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        if (data && typeof data.imageUrl === 'string' && data.imageUrl) {
+                            applyProfileImage(data.imageUrl);
+                            await persistLocalState();
+                        }
+                    }
+                },
+                (err) => {
+                    console.warn('Profile snapshot error:', err);
+                }
+            );
+
+            const releasesColRef = collection(db, 'artifacts', appId, 'public', 'data', 'releases');
+            onSnapshot(
+                releasesColRef,
+                async (snapshot) => {
+                    const cloudList = [];
+                    snapshot.forEach((docSnap) => {
+                        cloudList.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    cloudList.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+                    releasesData = cloudList;
+                    renderReleases();
+                    await persistLocalState();
+                },
+                (err) => {
+                    console.warn('Releases snapshot error:', err);
+                }
+            );
+        }
+
+        async function initApp() {
+            const yearEl = document.getElementById('footer-year');
+            if (yearEl) {
+                yearEl.textContent = String(new Date().getFullYear());
+            }
+
+            setupNavigation();
+            setupFormsAndUploads();
+            updateAdminUI();
+
+            const saved = await loadLocalState();
+            if (saved) {
+                if (saved.profileImage) {
+                    applyProfileImage(saved.profileImage);
+                }
+                if (Array.isArray(saved.releases)) {
+                    releasesData = saved.releases;
+                }
+                if (Array.isArray(saved.demos)) {
+                    submittedDemos = saved.demos;
+                }
+            }
+
+            renderReleases();
+            renderSubmittedDemos();
+            refreshIcons();
+
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    onAuthStateChanged(auth, (user) => {
+                        if (!user) return;
+                        currentUser = user;
+                        attachPublicListeners();
+                    });
+                }
+            } catch (err) {
+                console.warn('Firebase initialization skipped, using local persistence:', err);
+            }
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bootstrapApp);
+            document.addEventListener('DOMContentLoaded', initApp);
         } else {
-            bootstrapApp();
+            initApp();
         }
-        window.addEventListener('load', safeCreateIcons);
     </script>
 </body>
 </html>
