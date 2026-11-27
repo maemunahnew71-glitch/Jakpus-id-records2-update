@@ -749,9 +749,72 @@
         let currentUser = null;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'jakpus-id-record';
         const SESSION_STORE_KEY = 'JAKPUS_ID_RECORD_STATE_V1';
+        const IDB_NAME = 'JakpusIDRecordDB';
+        const IDB_STORE = 'stateStore';
 
-        // Persist fallback state across page refreshes using window.name
+        function openIDB() {
+            return new Promise((resolve, reject) => {
+                if (!('indexedDB' in window)) {
+                    resolve(null);
+                    return;
+                }
+                try {
+                    const req = indexedDB.open(IDB_NAME, 1);
+                    req.onupgradeneeded = () => {
+                        const database = req.result;
+                        if (!database.objectStoreNames.contains(IDB_STORE)) {
+                            database.createObjectStore(IDB_STORE);
+                        }
+                    };
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => reject(req.error);
+                } catch (err) {
+                    resolve(null);
+                }
+            });
+        }
+
+        async function loadIDBState() {
+            try {
+                const database = await openIDB();
+                if (!database) return null;
+                return await new Promise((resolve) => {
+                    const tx = database.transaction(IDB_STORE, 'readonly');
+                    const store = tx.objectStore(IDB_STORE);
+                    const req = store.get('mainState');
+                    req.onsuccess = () => resolve(req.result || null);
+                    req.onerror = () => resolve(null);
+                });
+            } catch (err) {
+                return null;
+            }
+        }
+
+        async function saveIDBState(nextState) {
+            try {
+                const database = await openIDB();
+                if (!database) return;
+                const tx = database.transaction(IDB_STORE, 'readwrite');
+                const store = tx.objectStore(IDB_STORE);
+                store.put(nextState, 'mainState');
+            } catch (err) {
+                console.warn('IDB save skipped:', err);
+            }
+        }
+
+        // Persist fallback state across page refreshes & idle tabs using localStorage + IndexedDB + window.name
         function loadWindowState() {
+            try {
+                if (window.localStorage) {
+                    const lsRaw = window.localStorage.getItem(SESSION_STORE_KEY);
+                    if (lsRaw) {
+                        return JSON.parse(lsRaw);
+                    }
+                }
+            } catch (err) {
+                console.warn('localStorage read fallback:', err);
+            }
+
             try {
                 if (!window.name || !window.name.startsWith(SESSION_STORE_KEY)) return null;
                 const raw = window.name.slice(SESSION_STORE_KEY.length);
@@ -771,6 +834,17 @@
                     demos: partial.demos !== undefined ? partial.demos : (current.demos || submittedDemos),
                     adminPin: partial.adminPin !== undefined ? partial.adminPin : storedAdminPin
                 };
+
+                saveIDBState(next);
+
+                try {
+                    if (window.localStorage) {
+                        window.localStorage.setItem(SESSION_STORE_KEY, JSON.stringify(next));
+                    }
+                } catch (lsErr) {
+                    console.warn('localStorage write warning:', lsErr);
+                }
+
                 const serialized = SESSION_STORE_KEY + JSON.stringify(next);
                 if (serialized.length < 4500000) {
                     window.name = serialized;
@@ -1411,7 +1485,22 @@
 
         // 7. Initialize Firestore Persistence & Realtime Sync
         async function initAppStorage() {
-            const cachedState = loadWindowState();
+            let cachedState = loadWindowState();
+            const idbState = await loadIDBState();
+            if (idbState) {
+                cachedState = {
+                    ...(cachedState || {}),
+                    profileImage: idbState.profileImage || cachedState?.profileImage || "",
+                    releases: (Array.isArray(idbState.releases) && idbState.releases.length > 0)
+                        ? idbState.releases
+                        : (cachedState?.releases || []),
+                    demos: (Array.isArray(idbState.demos) && idbState.demos.length > 0)
+                        ? idbState.demos
+                        : (cachedState?.demos || []),
+                    adminPin: idbState.adminPin || cachedState?.adminPin || storedAdminPin
+                };
+            }
+
             if (cachedState) {
                 if (cachedState.profileImage) {
                     applyProfileImage(cachedState.profileImage);
@@ -1465,9 +1554,13 @@
                     // Sync Profile Photo
                     const profileDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'label_settings', 'profile');
                     onSnapshot(profileDocRef, (snapshot) => {
-                        if (snapshot.exists() && snapshot.data().imageUrl) {
-                            applyProfileImage(snapshot.data().imageUrl);
-                            saveWindowState({ profileImage: snapshot.data().imageUrl });
+                        const cloudImg = snapshot.exists() ? snapshot.data().imageUrl : "";
+                        if (cloudImg) {
+                            applyProfileImage(cloudImg);
+                            saveWindowState({ profileImage: cloudImg });
+                        } else if (cachedState && cachedState.profileImage) {
+                            applyProfileImage(cachedState.profileImage);
+                            setDoc(profileDocRef, { imageUrl: cachedState.profileImage, updatedAt: Date.now() }, { merge: true }).catch(() => {});
                         }
                     }, (err) => console.error('Profile sync error:', err));
 
@@ -1488,8 +1581,10 @@
                             loaded.push({ id: docSnap.id, ...docSnap.data() });
                         });
                         loaded.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                        releasesData = loaded;
-                        saveWindowState({ releases: loaded });
+                        if (loaded.length > 0 || !cachedState || !Array.isArray(cachedState.releases) || cachedState.releases.length === 0) {
+                            releasesData = loaded;
+                            saveWindowState({ releases: loaded });
+                        }
                         renderReleases();
                     }, (err) => console.error('Releases sync error:', err));
 
@@ -1501,8 +1596,10 @@
                             loadedDemos.push({ id: docSnap.id, ...docSnap.data() });
                         });
                         loadedDemos.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                        submittedDemos = loadedDemos;
-                        saveWindowState({ demos: loadedDemos });
+                        if (loadedDemos.length > 0 || !cachedState || !Array.isArray(cachedState.demos) || cachedState.demos.length === 0) {
+                            submittedDemos = loadedDemos;
+                            saveWindowState({ demos: loadedDemos });
+                        }
                         renderSubmittedDemos();
                     }, (err) => console.error('Demos sync error:', err));
                 });
